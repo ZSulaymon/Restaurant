@@ -10,8 +10,8 @@ using Restaurant.Context;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20211107125221_createRegDB")]
-    partial class createRegDB
+    [Migration("20211108123247_addRestModels")]
+    partial class addRestModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

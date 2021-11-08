@@ -30,7 +30,7 @@ namespace Restaurant
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MoviePortalContext>(option =>
+            services.AddDbContext<RestaurantContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Default")).UseLazyLoadingProxies();
             });
@@ -40,7 +40,7 @@ namespace Restaurant
                 option.User.AllowedUserNameCharacters = null;
             }).AddRoleManager<RoleManager<IdentityRole>>()
               .AddUserManager<UserManager<User>>()
-              .AddEntityFrameworkStores<MoviePortalContext>()
+              .AddEntityFrameworkStores<RestaurantContext>()
               .AddDefaultTokenProviders();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();

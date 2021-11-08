@@ -9,7 +9,7 @@ namespace Restaurant.Context
 {
     public static class ContextHelper
     {
-        public static async Task Seeding(MoviePortalContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task Seeding(RestaurantContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.Roles.Where(p => p.NormalizedName.Equals("Admin")).Any())
             {

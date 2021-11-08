@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Restaurant.Models.Restaurant;
 using Restaurant.Models.Account;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.Context
 {
-    public class MoviePortalContext : IdentityDbContext<User>
+    public class RestaurantContext : IdentityDbContext<User>
     {
-        public MoviePortalContext(DbContextOptions options) : base(options)
+        public RestaurantContext(DbContextOptions options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder builder)
@@ -25,6 +26,9 @@ namespace Restaurant.Context
             builder.Entity<IdentityUserLogin<string>>(entity => entity.ToTable("UserLogins"));
             builder.Entity<IdentityUserToken<string>>(entity => entity.ToTable("UserTokens"));
             builder.Entity<IdentityRoleClaim<string>>(entity => entity.ToTable("RoleClaims"));
+            builder.Entity<RestInfo>(entity => entity.ToTable("RestInfo"));
+            builder.Entity<RestMenu>(entity => entity.ToTable("RestMenu"));
         }
+        public DbSet<Restaurant.Models.Restaurant.RestInfo> RestInfo { get; set; }
     }
 }
