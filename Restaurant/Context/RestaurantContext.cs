@@ -30,5 +30,6 @@ namespace Restaurant.Context
             builder.Entity<RestMenu>(entity => entity.ToTable("RestMenu"));
         }
         public DbSet<Restaurant.Models.Restaurant.RestInfo> RestInfo { get; set; }
+        public DbSet<Restaurant.Models.Restaurant.RestMenu> RestMenu { get; set; }
     }
 }
