@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Restaurant.Services;
 
 namespace Restaurant
 {
@@ -70,7 +71,7 @@ namespace Restaurant
             });
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.InitServices();
+            services.InitServices();
 
 
         }

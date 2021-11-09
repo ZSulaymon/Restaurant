@@ -9,14 +9,14 @@ using Restaurant.Models.Restaurant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-
+using Restaurant.Services.RestInfo;
 namespace Restaurant.Controllers
 {
     public class RestaurantController : Controller
     {
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        //private readonly RestInfoService   _restInfoService;
+        private readonly RestInfoService   _restInfoService;
 
         public RestaurantController(RestaurantContext context,
             IWebHostEnvironment webHostEnvironment)

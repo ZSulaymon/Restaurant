@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MoviePortal.Services
+namespace Restaurant.Services
 {
     public static class ServiceExtension
     {
