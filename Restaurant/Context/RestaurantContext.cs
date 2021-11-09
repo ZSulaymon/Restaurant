@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Restaurant.Context
 {
@@ -15,6 +16,16 @@ namespace Restaurant.Context
         public RestaurantContext(DbContextOptions options) : base(options)
         {
         }
+
+
+        //public readonly IHttpContextAccessor _httpContextAccessor;
+
+        //public RestaurantContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
+        //{
+        //    _httpContextAccessor = httpContextAccessor;
+        //}
+        public DbSet<RestInfo> RestInfo { get; set; }
+        public DbSet<RestMenu> RestMenu { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -29,7 +40,7 @@ namespace Restaurant.Context
             builder.Entity<RestInfo>(entity => entity.ToTable("RestInfo"));
             builder.Entity<RestMenu>(entity => entity.ToTable("RestMenu"));
         }
-        public DbSet<Restaurant.Models.Restaurant.RestInfo> RestInfo { get; set; }
-        public DbSet<Restaurant.Models.Restaurant.RestMenu> RestMenu { get; set; }
+
+      
     }
 }

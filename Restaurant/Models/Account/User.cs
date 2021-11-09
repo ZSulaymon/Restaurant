@@ -20,5 +20,9 @@ namespace Restaurant.Models.Account
         //        return UserManager.FindById(User.Identity.GetUserId()).DzoID;
         //    }
         //}
+        //var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+
+
     }
 }

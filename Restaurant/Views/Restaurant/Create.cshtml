@@ -45,6 +45,10 @@
                 <span asp-validation-for="RestAdministrator" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ImageFile"></label>
+                <input asp-for="ImageFile" type="file" accept="image/*" class="form-control-file">
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

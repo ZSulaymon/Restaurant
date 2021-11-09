@@ -9,7 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Context;
 using Restaurant.Models.Account;
+
 using System;
+using System.Collections;
+using Microsoft.AspNetCore.Http;
+//using Restaurant;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +33,8 @@ namespace Restaurant
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews    ();
+ 
 
             services.AddDbContext<RestaurantContext>(option =>
             {
@@ -62,6 +68,11 @@ namespace Restaurant
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 option.SlidingExpiration = true;
             });
+
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.InitServices();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
