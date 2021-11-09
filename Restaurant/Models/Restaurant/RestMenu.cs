@@ -11,6 +11,7 @@ namespace Restaurant.Models.Restaurant
         public int id { get; set; }
         public string Name { get; set; }
         public string Composition { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         public string CoocingTime { get; set; }
         public int RestId { get; set; }

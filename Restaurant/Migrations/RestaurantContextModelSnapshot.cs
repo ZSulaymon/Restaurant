@@ -9,7 +9,7 @@ using Restaurant.Context;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class MoviePortalContextModelSnapshot : ModelSnapshot
+    partial class RestaurantContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

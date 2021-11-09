@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Restaurant.Models.Account;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,7 +48,7 @@ namespace Restaurant.Context
             //    };
 
             //    context.MovieCategories.AddRange(movieCategories);
-            //    await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             //}
         }
     }

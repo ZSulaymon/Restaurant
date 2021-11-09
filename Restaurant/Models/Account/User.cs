@@ -10,5 +10,15 @@ namespace Restaurant.Models.Account
     {
         //Create class Rest
         //public virtual ICollection<Restaurant>  Restaurants { get; set; }
+        //public int DzoID
+        //{
+        //    get
+        //    {
+        //        var UserManager = new UserManager<ApplicationUser>
+        //            (new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+        //        return UserManager.FindById(User.Identity.GetUserId()).DzoID;
+        //    }
+        //}
     }
 }
