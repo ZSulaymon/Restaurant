@@ -59,7 +59,7 @@ namespace Restaurant.Context
                     new FoodCategory { Id = Guid.NewGuid(), Name = "snacks"},
                     new FoodCategory { Id = Guid.NewGuid(),Name = "souces"},
                     new FoodCategory { Id = Guid.NewGuid(), Name = "desserts"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "wine list"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "wine list"}, 
                 };
 
                 context.FoodCategories.AddRange(foodCategories);
