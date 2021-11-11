@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
  using System;
+using Restaurant.Services.RestInfos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Restaurant.Services
         public static void InitServices(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //services.AddScoped<RestInfoService>();
+            services.AddScoped<RestInfoService>();
         }
     }
 }

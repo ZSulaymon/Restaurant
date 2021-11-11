@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MoviePortal.Services.Movie
+namespace Restaurant.Services.RestInfos
 {
-    public class MovieService
+    public class RestInfoService
     {
         private readonly RestaurantContext _context;
         private readonly IMapper _mapper;
 
-        public MovieService(RestaurantContext context, IMapper mapper)
+        public RestInfoService(RestaurantContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -38,6 +38,8 @@ namespace MoviePortal.Services.Movie
                 //UpdateDate = m.UpdateDate,
                 //UserId = m.User.Id,
                 //UserName = m.User.UserName
+
+
             }).ToListAsync();
 
             return movies;

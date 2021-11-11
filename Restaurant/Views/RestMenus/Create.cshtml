@@ -1,8 +1,8 @@
-﻿@model Restaurant.Models.Restaurant.RestMenu
+﻿@model Restaurant.Models.Restaurant.ViewModels.RestMenusModels
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
@@ -35,7 +35,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="RestId" class="control-label"></label>
-                <select asp-for="RestId" class ="form-control" asp-items="ViewBag.RestId"></select>
+                <select asp-for="RestId" class="form-control" asp-items="Model.RestNames"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

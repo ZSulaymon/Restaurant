@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Collections;
 
 namespace Restaurant.Context
 {
@@ -26,6 +27,9 @@ namespace Restaurant.Context
         //}
         public DbSet<RestInfo> RestInfo { get; set; }
         public DbSet<RestMenu> RestMenu { get; set; }
+        public DbSet<FoodCategory>  FoodCategories { get; set; }
+        public IEnumerable RestInfoModels { get; internal set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -39,6 +43,7 @@ namespace Restaurant.Context
             builder.Entity<IdentityRoleClaim<string>>(entity => entity.ToTable("RoleClaims"));
             builder.Entity<RestInfo>(entity => entity.ToTable("RestInfo"));
             builder.Entity<RestMenu>(entity => entity.ToTable("RestMenu"));
+            builder.Entity<FoodCategory>(entity => entity.ToTable("FoodCatigories"));
         }
 
       

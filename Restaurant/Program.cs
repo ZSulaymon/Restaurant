@@ -1,8 +1,13 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Restaurant;
+using Restaurant.Context;
+using Restaurant.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +17,31 @@ namespace Restaurant
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            try
+            {
+                var context = services.GetRequiredService<RestaurantContext>();
+                var userManager = services.GetRequiredService<UserManager<User>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                await context.Database.MigrateAsync();
+
+                await ContextHelper.Seeding(context, userManager, roleManager);
+
+                logger.LogInformation("Migrate successfull");
+            }
+            catch (Exception ex)
+            {
+
+                logger.LogError(ex.Message);
+            }
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

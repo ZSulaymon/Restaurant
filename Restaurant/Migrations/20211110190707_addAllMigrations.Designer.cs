@@ -10,8 +10,8 @@ using Restaurant.Context;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20211109195455_addcolumnToRestInfo")]
-    partial class addcolumnToRestInfo
+    [Migration("20211110190707_addAllMigrations")]
+    partial class addAllMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,12 +217,28 @@ namespace Restaurant.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Restaurant.Models.Restaurant.FoodCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FoodCatigories");
+                });
+
             modelBuilder.Entity("Restaurant.Models.Restaurant.RestInfo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("InsertDateTime")
                         .HasColumnType("datetime2");
@@ -242,6 +258,9 @@ namespace Restaurant.Migrations
                     b.Property<string>("RestReferencePoint")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -254,10 +273,12 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Models.Restaurant.RestMenu", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Composition")
                         .HasColumnType("nvarchar(max)");
@@ -265,16 +286,27 @@ namespace Restaurant.Migrations
                     b.Property<string>("CoocingTime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("InsertDataTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RestId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RestId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("id");
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("RestId");
 
@@ -343,13 +375,26 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Models.Restaurant.RestMenu", b =>
                 {
+                    b.HasOne("Restaurant.Models.Restaurant.FoodCategory", "FoodCategory")
+                        .WithMany("RestMenus")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Restaurant.Models.Restaurant.RestInfo", "RestInfo")
                         .WithMany()
                         .HasForeignKey("RestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("FoodCategory");
+
                     b.Navigation("RestInfo");
+                });
+
+            modelBuilder.Entity("Restaurant.Models.Restaurant.FoodCategory", b =>
+                {
+                    b.Navigation("RestMenus");
                 });
 #pragma warning restore 612, 618
         }

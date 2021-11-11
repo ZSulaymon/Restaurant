@@ -12,7 +12,7 @@ namespace Restaurant.Models.Restaurant
     public class RestInfo
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string RestName { get; set; }
         public string RestAddress { get; set; }
         public DateTime InsertDateTime { get; set; }

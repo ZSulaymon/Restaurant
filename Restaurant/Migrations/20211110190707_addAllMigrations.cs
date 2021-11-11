@@ -3,10 +3,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Restaurant.Migrations
 {
-    public partial class createRegDB : Migration
+    public partial class addAllMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "FoodCatigories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodCatigories", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -65,6 +77,32 @@ namespace Restaurant.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RestInfo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RestName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RestAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InsertDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RestReferencePoint = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RestPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RestAdministrator = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RestInfo_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +190,53 @@ namespace Restaurant.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RestMenu",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Composition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CoocingTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    InsertDataTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RestMenu_FoodCatigories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "FoodCatigories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RestMenu_RestInfo_RestId",
+                        column: x => x.RestId,
+                        principalTable: "RestInfo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestInfo_UserId",
+                table: "RestInfo",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestMenu_CategoryId",
+                table: "RestMenu",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RestMenu_RestId",
+                table: "RestMenu",
+                column: "RestId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
@@ -195,6 +280,9 @@ namespace Restaurant.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "RestMenu");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
@@ -208,6 +296,12 @@ namespace Restaurant.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FoodCatigories");
+
+            migrationBuilder.DropTable(
+                name: "RestInfo");
 
             migrationBuilder.DropTable(
                 name: "Roles");

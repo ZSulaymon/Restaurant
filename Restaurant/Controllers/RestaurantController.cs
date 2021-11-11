@@ -9,20 +9,21 @@ using Restaurant.Models.Restaurant;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-using Restaurant.Services.RestInfo;
+using Restaurant.Services.RestInfos;
 namespace Restaurant.Controllers
 {
     public class RestaurantController : Controller
     {
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly RestInfoService   _restInfoService;
+        private readonly RestInfoService _restInfoService;
 
         public RestaurantController(RestaurantContext context,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment, RestInfoService restInfoService)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _restInfoService = restInfoService;
         }
 
         // GET: Restaurant
@@ -40,7 +41,7 @@ namespace Restaurant.Controllers
         }
 
         // GET: Restaurant/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace Restaurant.Controllers
                 RestReferencePoint = model.RestReferencePoint,
                  
             };
-            
+
             _context.Add(restInfo);
                    await _context.SaveChangesAsync();
                    return RedirectToAction(nameof(Index));
@@ -151,12 +152,13 @@ namespace Restaurant.Controllers
                 fileName = await CopyFile(model.ImageFile);
             }
 
-          // await _movieService.Update(model, fileName);
+           await _restInfoService.Update(model, fileName);
 
              return View(model);
         }
 
-        private async Task<bool> DeleteFile(string imageName, string movieId)
+        [NonAction]
+        private async Task<bool> DeleteFile(string imageName, string RestId)
         {
             if (string.IsNullOrEmpty(imageName))
             {
@@ -175,23 +177,23 @@ namespace Restaurant.Controllers
                 System.IO.File.Delete(finalfilePath);
             });
 
-            var parsedMovieIdResult = Guid.TryParse(movieId, out var parsedMovieId);
+            var parsedRestIdInfoResult = Guid.TryParse(RestId, out var parsedRestId);
 
-            if (!parsedMovieIdResult)
+            if (!parsedRestIdInfoResult )
             {
                 return false; ;
             }
 
-            //var movie = await _moviePortalContext.Movies.FirstOrDefaultAsync(p => p.Id.Equals(parsedMovieId));
+            var restinfo = await _context.RestMenu.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
 
-           // if (movie == null)
-           // {
-           //     return false;
-           // }
+            if (restinfo == null)
+            {
+                return false;
+            }
 
-           //// movie.Image = null;
+            restinfo.ImageName = null;
 
-           // await _moviePortalContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return true;
         }
@@ -201,7 +203,7 @@ namespace Restaurant.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator")] RestInfo restInfo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator")] RestInfo restInfo)
         {
             if (id != restInfo.Id)
             {
@@ -232,7 +234,7 @@ namespace Restaurant.Controllers
         }
 
         // GET: Restaurant/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -260,7 +262,7 @@ namespace Restaurant.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RestInfoExists(int id)
+        private bool RestInfoExists(Guid id)
         {
             return _context.RestInfo.Any(e => e.Id == id);
         }

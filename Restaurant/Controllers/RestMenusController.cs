@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,68 +6,144 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Context;
 using Restaurant.Models.Restaurant;
+using Restaurant.Models.Restaurant.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Restaurant.Controllers
 {
     public class RestMenusController : Controller
     {
+        //private readonly RestaurantContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        //private readonly RestMenusService _restMenusService;
+        //public RestMenusController(RestaurantContext context,
+        //    IWebHostEnvironment webHostEnvironment, RestMenusService restInfoService)
+        //{
+        //    _context = context;
+        //    _webHostEnvironment = webHostEnvironment;
+        //    _restMenusService = restInfoService;
+        //}
         private readonly RestaurantContext _context;
-
-        public RestMenusController(RestaurantContext context)
+        public RestMenusController(RestaurantContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
-
         // GET: RestMenus
         public async Task<IActionResult> Index()
         {
             var restaurantContext = _context.RestMenu.Include(r => r.RestInfo);
             return View(await restaurantContext.ToListAsync());
         }
-
         // GET: RestMenus/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var restMenu = await _context.RestMenu
                 .Include(r => r.RestInfo)
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (restMenu == null)
             {
                 return NotFound();
             }
-
             return View(restMenu);
         }
-
-        // GET: RestMenus/Create
-        public IActionResult Create()
+        [NonAction]
+        private async Task<string> CopyFile(IFormFile imageFile)
         {
-            ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id");
-            return View();
+            if (imageFile == null) return null;
+            var rootPath = _webHostEnvironment.WebRootPath;
+            var filename = Path.GetFileNameWithoutExtension(imageFile.FileName); //02animalpicture
+            var fileExtension = Path.GetExtension(imageFile.FileName); //.jpeg
+            var finalFileName = $"{filename}_{DateTime.Now.ToString("yyMMddHHmmssff")}{fileExtension}";
+            var filePath = Path.Combine(rootPath, "images", finalFileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+            return finalFileName;
         }
+        // GET: RestMenus/Create
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+                ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id");
+            //    ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id");
+            //    return View();
+            var restMenusM = new RestMenusModels();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var categories = await _context.FoodCategories.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            }).ToListAsync();
+            var RestNames = await _context.RestInfo.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.RestName
+            }).ToListAsync();
 
+            restMenusM.Categories = categories;
+            restMenusM.RestNames = RestNames;
+            return View(restMenusM);
+        }
         // POST: RestMenus/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Name,Composition,Price,CoocingTime,RestId")] RestMenu restMenu)
+        //public async Task<IActionResult> Create([Bind("id,Name,Composition,Price,CoocingTime,RestId,CategoryId")] RestMenu restMenu)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(restMenu);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id",  restMenu.CategoryId);
+        //    //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.Name);
+        //    return View(restMenu);
+        //}
+        public async Task<IActionResult> Create(RestMenusModels model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(restMenu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(model);
             }
-            ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
-            return View(restMenu);
-        }
+            string finalFileName = null;
+            if (model.ImageFile != null)
+            {
+                finalFileName = await CopyFile(model.ImageFile);
+            }
+            if (model.Id != null)
+            {
 
+            }
+            //Current user id
+           // var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var rest  = new RestMenu
+            {
+                Id = Guid.NewGuid(),
+                CategoryId =model.CategoryId,
+                Name = model.Name,
+                Composition = model.Composition,
+                ImageName = finalFileName,
+                CoocingTime = model.CoocingTime,
+                Price = model.Price,
+                RestId = model.RestId,
+                InsertDataTime = model.InsertDataTime,                    
+            };
+            _context.RestMenu.Add(rest);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "RestMenus");
+            //return View(rest);
+        }
         // GET: RestMenus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -76,7 +151,6 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
             var restMenu = await _context.RestMenu.FindAsync(id);
             if (restMenu == null)
             {
@@ -85,15 +159,14 @@ namespace Restaurant.Controllers
             ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
             return View(restMenu);
         }
-
         // POST: RestMenus/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Name,Composition,Price,CoocingTime,RestId")] RestMenu restMenu)
+        public async Task<IActionResult> Edit(Guid id, [Bind("id,Name,Composition,Price,CoocingTime,RestId,CategoryId,")] RestMenu restMenu)
         {
-            if (id != restMenu.id)
+            if (id != restMenu.Id)
             {
                 return NotFound();
             }
@@ -107,7 +180,7 @@ namespace Restaurant.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RestMenuExists(restMenu.id))
+                    if (!RestMenuExists(restMenu.Id))
                     {
                         return NotFound();
                     }
@@ -118,29 +191,26 @@ namespace Restaurant.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id",restMenu.CategoryId );
             ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
             return View(restMenu);
         }
-
         // GET: RestMenus/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var restMenu = await _context.RestMenu
                 .Include(r => r.RestInfo)
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (restMenu == null)
             {
                 return NotFound();
             }
-
             return View(restMenu);
         }
-
         // POST: RestMenus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -151,10 +221,9 @@ namespace Restaurant.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool RestMenuExists(int id)
+        private bool RestMenuExists(Guid id)
         {
-            return _context.RestMenu.Any(e => e.id == id);
+            return _context.RestMenu.Any(e => e.Id == id);
         }
     }
 }

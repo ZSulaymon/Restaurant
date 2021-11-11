@@ -17,9 +17,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageName" />
+
             <div class="form-group">
                 <label asp-for="RestName" class="control-label"></label>
                 <input asp-for="RestName" class="form-control" />
@@ -44,6 +46,15 @@
                 <label asp-for="RestAdministrator" class="control-label"></label>
                 <input asp-for="RestAdministrator" class="form-control" />
                 <span asp-validation-for="RestAdministrator" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col">
+                    <img id="movie-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
+                </div>
+                <div>
+                    <button data-movie-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

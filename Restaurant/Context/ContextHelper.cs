@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Restaurant.Models.Account;
+using Restaurant.Models.Restaurant;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,19 +40,33 @@ namespace Restaurant.Context
                 }
             }
 
-            //if (!context.MovieCategories.Any())
-            //{
-            //    var movieCategories = new List<MovieCategory>
-            //    {
-            //        new MovieCategory { Id = Guid.NewGuid(), Name = "Horror"},
-            //        new MovieCategory { Id = Guid.NewGuid(), Name = "Fantasy"},
-            //        new MovieCategory { Id = Guid.NewGuid(), Name = "Documental"},
-            //        new MovieCategory { Id = Guid.NewGuid(), Name = "Comedy"},
-            //    };
+            if (!context.FoodCategories.Any())
+            {
+                var foodCategories = new List<FoodCategory>
+                {
+                    new FoodCategory { Id = Guid.NewGuid(),Name  = "appetizers "},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "cold platter"},
+                    new FoodCategory { Id = Guid.NewGuid(),  Name = "hot appetizers"},
+                    new FoodCategory { Id = Guid.NewGuid(),  Name = "startes"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "soups"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "salads"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "main dishes"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "meat"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "steak "},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "poultry / poultry dishes"},
+                    new FoodCategory { Id = Guid.NewGuid(),Name = "fish and seafoods"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "side dishes / sides"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "snacks"},
+                    new FoodCategory { Id = Guid.NewGuid(),Name = "souces"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "desserts"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "wine list"},
+                };
 
-            //    context.MovieCategories.AddRange(movieCategories);
+                context.FoodCategories.AddRange(foodCategories);
                 await context.SaveChangesAsync();
-            //}
+                //}
+            }
+
         }
     }
 }
