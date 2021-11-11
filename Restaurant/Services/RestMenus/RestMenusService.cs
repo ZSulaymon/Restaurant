@@ -21,26 +21,26 @@ namespace Restaurant.Services.RestMenus
             _mapper = mapper;
         }
 
-        public async Task<List<RestMenusModels>> GetAll()
-        {
-            var menus = await _context.RestMenu.Select(m => new RestMenusModels
-            {
-                Name = m.Name,
-                CategoryId = m.CategoryId,
-                CoocingTime = m.CoocingTime,
-                Price = m.Price,
-                ImageName = m.ImageName,
-                Composition = m.Composition,
-                RestId = m.RestId,
-                CategoryName = m.FoodCategory.Name,
-                RestName = m.RestInfo.RestName,
-                Id = m.Id,
+        //public async Task<List<RestMenusModels>> GetAll()
+        //{
+        //    var menus = await _context.RestMenu.Select(m => new RestMenusModels
+        //    {
+        //        Name = m.Name,
+        //        CategoryId = m.CategoryId,
+        //        CoocingTime = m.CoocingTime,
+        //        Price = m.Price,
+        //        ImageName = m.ImageName,
+        //        Composition = m.Composition,
+        //        RestId = m.RestId,
+        //        CategoryName = m.FoodCategory.Name,
+        //        RestName = m.RestInfo.RestName,
+        //        Id = m.Id,
 
-             
-            }).ToListAsync();
 
-            return menus;
-        }
+        //    }).ToListAsync();
+
+        //    return menus;
+        //}
         public async Task<RestMenusModels> GetById(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -48,7 +48,7 @@ namespace Restaurant.Services.RestMenus
                 throw new Exception("Movie with this id not found");
             }
 
-            var rest = await _context.RestMenu.FirstOrDefaultAsync(p => p.Id.Equals(Guid.Parse(id)));
+            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(Guid.Parse(id)));
 
             if (rest == null)
             {
@@ -77,7 +77,7 @@ namespace Restaurant.Services.RestMenus
 
             rest.UpdateDate = DateTime.Now;
 
-            _context.RestMenu.Update(rest);
+            _context.RestMenus.Update(rest);
 
             await _context.SaveChangesAsync();
         }

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Restaurant.Models.Restaurant.RestMenu>
+@*@model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>*@
 
 @{
     ViewData["Title"] = "Index";
@@ -26,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.CoocingTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RestInfo)
+                @Html.DisplayNameFor(model => model.RestInfo.RestName)
             </th>
             <th></th>
         </tr>

@@ -26,9 +26,10 @@ namespace Restaurant.Context
         //    _httpContextAccessor = httpContextAccessor;
         //}
         public DbSet<RestInfo> RestInfo { get; set; }
-        public DbSet<RestMenu> RestMenu { get; set; }
-        public DbSet<FoodCategory>  FoodCategories { get; set; }
-        public IEnumerable RestInfoModels { get; internal set; }
+        public DbSet<RestMenu> RestMenus { get; set; }
+        public DbSet<FoodCategory> FoodCategories { get; set; }
+        //public IEnumerable RestInfoModels { get; internal set; }
+        //public IEnumerable RestMenusModels { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Restaurant.Services.RestMenus;
 
 namespace Restaurant.Controllers
 {
@@ -18,7 +19,7 @@ namespace Restaurant.Controllers
     {
         //private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        //private readonly RestMenusService _restMenusService;
+       // private readonly RestMenusService _restMenusService;
         //public RestMenusController(RestaurantContext context,
         //    IWebHostEnvironment webHostEnvironment, RestMenusService restInfoService)
         //{
@@ -31,13 +32,21 @@ namespace Restaurant.Controllers
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+          //  _restMenusService = restMenusService;
         }
         // GET: RestMenus
         public async Task<IActionResult> Index()
         {
-            var restaurantContext = _context.RestMenu.Include(r => r.RestInfo);
+            var restaurantContext = _context.RestMenus.Include(r => r.RestInfo);
             return View(await restaurantContext.ToListAsync());
         }
+        //public async Task<IActionResult> Index()
+        //{
+        //    //var dateString = DateTime.Now.ToStringTajikFormat(DateFormats.Russian);
+
+        //    var movies = await _restMenusService.GetAll();
+        //    return View(movies);
+        //}
         // GET: RestMenus/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -45,7 +54,7 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-            var restMenu = await _context.RestMenu
+            var restMenu = await _context.RestMenus
                 .Include(r => r.RestInfo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restMenu == null)
@@ -140,24 +149,24 @@ namespace Restaurant.Controllers
                 InsertDataTime = DateTime.Now,    
                 UpdateDate = null
             };
-            _context.RestMenu.Add(rest);
+            _context.RestMenus.Add(rest);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "RestMenus");
             //return View(rest);
         }
         // GET: RestMenus/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var restMenu = await _context.RestMenu.FindAsync(id);
+            var restMenu = await _context.RestMenus.FindAsync(id);
             if (restMenu == null)
             {
                 return NotFound();
             }
-            ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
+            ViewData["RestId"] = new SelectList(_context.RestMenus, "Id", "Id", restMenu.RestId);
             return View(restMenu);
         }
         // POST: RestMenus/Edit/5
@@ -203,7 +212,7 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-            var restMenu = await _context.RestMenu
+            var restMenu = await _context.RestMenus
                 .Include(r => r.RestInfo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restMenu == null)
@@ -215,16 +224,16 @@ namespace Restaurant.Controllers
         // POST: RestMenus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var restMenu = await _context.RestMenu.FindAsync(id);
-            _context.RestMenu.Remove(restMenu);
+            var restMenu = await _context.RestMenus.FindAsync(id);
+            _context.RestMenus.Remove(restMenu);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         private bool RestMenuExists(Guid id)
         {
-            return _context.RestMenu.Any(e => e.Id == id);
+            return _context.RestMenus.Any(e => e.Id == id);
         }
     }
 }

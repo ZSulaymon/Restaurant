@@ -185,7 +185,7 @@ namespace Restaurant.Controllers
                 return false; ;
             }
 
-            var restinfo = await _context.RestMenu.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
+            var restinfo = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
 
             if (restinfo == null)
             {
