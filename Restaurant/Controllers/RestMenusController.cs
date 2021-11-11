@@ -137,7 +137,8 @@ namespace Restaurant.Controllers
                 CoocingTime = model.CoocingTime,
                 Price = model.Price,
                 RestId = model.RestId,
-                InsertDataTime = model.InsertDataTime,                    
+                InsertDataTime = DateTime.Now,    
+                UpdateDate = null
             };
             _context.RestMenu.Add(rest);
             await _context.SaveChangesAsync();

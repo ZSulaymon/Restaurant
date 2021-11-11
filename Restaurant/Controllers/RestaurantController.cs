@@ -124,6 +124,7 @@ namespace Restaurant.Controllers
                 UserId = currenUserId,
                 RestAddress = model.RestAddress,
                 RestReferencePoint = model.RestReferencePoint,
+                UpdateDate = null
                  
             };
 
