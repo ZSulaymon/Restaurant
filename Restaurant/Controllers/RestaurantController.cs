@@ -255,7 +255,7 @@ namespace Restaurant.Controllers
         // POST: Restaurant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var restInfo = await _context.RestInfo.FindAsync(id);
             _context.RestInfo.Remove(restInfo);
