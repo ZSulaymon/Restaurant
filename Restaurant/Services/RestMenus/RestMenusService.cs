@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Context;
+using Restaurant.Models.Restaurant;
 using Restaurant.Models.Restaurant.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,57 +22,50 @@ namespace Restaurant.Services.RestMenus
             _mapper = mapper;
         }
 
-        //public async Task<List<RestMenusModels>> GetAll()
-        //{
-        //    var menus = await _context.RestMenu.Select(m => new RestMenusModels
-        //    {
-        //        Name = m.Name,
-        //        CategoryId = m.CategoryId,
-        //        CoocingTime = m.CoocingTime,
-        //        Price = m.Price,
-        //        ImageName = m.ImageName,
-        //        Composition = m.Composition,
-        //        RestId = m.RestId,
-        //        CategoryName = m.FoodCategory.Name,
-        //        RestName = m.RestInfo.RestName,
-        //        Id = m.Id,
-
-
-        //    }).ToListAsync();
-
-        //    return menus;
-        //}
-        public async Task<RestMenusModels> GetById(string id)
+        public async Task<List<RestMenusModels>> GetAll()
         {
-            if (string.IsNullOrEmpty(id))
+            var menus = await _context.RestMenus.Select(m => new RestMenusModels
             {
-                throw new Exception("Movie with this id not found");
+                Name = m.Name,
+                CategoryId = m.CategoryId,
+                CoocingTime = m.CoocingTime,
+                Price = m.Price,
+                ImageName = m.ImageName,
+                Composition = m.Composition,
+                RestId = m.RestId,
+                CategoryName = m.FoodCategory.Name,
+                RestName = m.RestInfo.RestName,
+                Id = m.Id,
+
+
+            }).ToListAsync();
+
+            return menus;
+        }
+        public async Task<RestMenusModels> GetById(Guid? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("menu with this id not found");
             }
 
-            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(Guid.Parse(id)));
+            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(id));
 
             if (rest == null)
             {
-                throw new Exception("Movie with this id not found");
+                throw new Exception("menu with this id not found");
             }
 
             var restMModels = _mapper.Map<RestMenusModels>(rest);
 
-            restMModels.Categories = await _context.FoodCategories.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
+            restMModels.Categories = await _context.RestMenus.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
 
             return restMModels;
         }
 
-        public async Task Update(RestMenusModels model, string fileName)
+        public async Task Update(RestMenu model, string fileName)
         {
-            //var movie = await _context.Movies.FirstOrDefaultAsync(p => p.Id.Equals(model.Id));
-
-            //if (movie == null)
-            //{
-            //    throw new Exception($"Movie with id: {model.Id} not found");
-            //}
-
-            var rest = _mapper.Map<Models.Restaurant.RestMenu>(model);
+            var rest = _mapper.Map<RestMenu>(model);
 
             rest.ImageName  = string.IsNullOrEmpty(fileName) ? rest.ImageName : fileName;
 

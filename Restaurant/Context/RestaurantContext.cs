@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Collections;
+using Restaurant.Models.Restaurant.ViewModels;
 
 namespace Restaurant.Context
 {
@@ -17,14 +18,7 @@ namespace Restaurant.Context
         public RestaurantContext(DbContextOptions options) : base(options)
         {
         }
-
-
-        //public readonly IHttpContextAccessor _httpContextAccessor;
-
-        //public RestaurantContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
-        //{
-        //    _httpContextAccessor = httpContextAccessor;
-        //}
+ 
         public DbSet<RestInfo> RestInfo { get; set; }
         public DbSet<RestMenu> RestMenus { get; set; }
         public DbSet<FoodCategory> FoodCategories { get; set; }
@@ -46,7 +40,12 @@ namespace Restaurant.Context
             builder.Entity<RestMenu>(entity => entity.ToTable("RestMenu"));
             builder.Entity<FoodCategory>(entity => entity.ToTable("FoodCatigories"));
         }
+        //public IEnumerable RestInfoModels { get; internal set; }
+        //public IEnumerable RestMenusModels { get; internal set; }
 
-      
+       // public DbSet<Restaurant.Models.Restaurant.ViewModels.RestInfoModels> RestInfoModels { get; set; }
+        //public DbSet<Restaurant.Models.Restaurant.ViewModels.RestMenusModels> RestMenusModels { get; set; }
+
+
     }
 }

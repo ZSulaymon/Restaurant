@@ -20,7 +20,10 @@ namespace Restaurant.Models.Restaurant
         public string CoocingTime { get; set; }
         public string ImageName { get; set; }
         public DateTime? UpdateDate { get; set; }
+       [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public DateTime? InsertDataTime { get; set; }
+        [Required]
         public Guid RestId { get; set; }
         [ForeignKey("RestId")]
         public virtual RestInfo RestInfo { get; set; }

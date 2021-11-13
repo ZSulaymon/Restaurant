@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Restaurant.Models.Restaurant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace Restaurant.Models.Account
         //}
         //var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+        public virtual ICollection<RestInfo> RestInfo { get; set; }
+        //public virtual ICollection<RestMenu> RestMenus { get; set; }
 
 
     }

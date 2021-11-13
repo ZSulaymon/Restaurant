@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Restaurant;
 using Restaurant.Context;
 using Restaurant.Models.Account;
+using Restaurant.Models.Restaurant;
+using Restaurant.Models.Restaurant.ViewModels;
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +17,14 @@ namespace Restaurant
 {
     public class Program
     {
+        //static Mapper InitializeAutomapper()
+        //{
+        //    var config = new MapperConfiguration(cfg => {
+        //        cfg.CreateMap<RestMenu, RestMenusModels>();
+        //    });
+        //    var mapper = new Mapper(config);
+        //    return mapper;
+        //}
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();

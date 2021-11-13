@@ -17,8 +17,8 @@ namespace Restaurant.Models.Restaurant.ViewModels
         public string RestReferencePoint { get; set; }
         public string RestPhone { get; set; }
         public string RestAdministrator { get; set; }
-        public string ImageName { get; set; }
         [Display(Name = "Картинка")]
+        public string ImageName { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
     }

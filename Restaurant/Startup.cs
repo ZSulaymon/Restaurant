@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Restaurant.Services;
+using Restaurant.Services.RestMenus;
 
 namespace Restaurant
 {
@@ -34,8 +35,11 @@ namespace Restaurant
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews    ();
- 
+            //services.AddAutoMapper(typeof(Startup));
+            services.InitServices();
+            services.AddControllersWithViews();
+           
+
 
             services.AddDbContext<RestaurantContext>(option =>
             {
@@ -71,8 +75,14 @@ namespace Restaurant
             });
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.InitServices();
+            //services.AddSingleton<IRestMenusService, RestMenusService>();
+            //services.AddAutoMapper(ServiceProvider.MapperExpression) =>
+            //        MapperExpression.ConstructServicesUsing(t => serviceProvider);
+            //MapperExpression.CreateMap(typeof(), typeof(UserViewModel));
 
+            //);
+
+ 
 
         }
 
