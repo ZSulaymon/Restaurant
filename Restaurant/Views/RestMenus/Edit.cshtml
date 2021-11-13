@@ -67,10 +67,10 @@
         </div>*@
                     <div class="row">
                         <div class="col">
-                            <img id="movie-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
+                            <img id="rest-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
                         </div>
                         <div>
-                            <button data-movie-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
+                            <button data-rest-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
                         </div>
                     </div>
                 </div>
@@ -95,18 +95,18 @@
                 e.preventDefault();
 
                 const imageName = $(e.currentTarget).data('image-name');
-                const movieId = $(e.currentTarget).data('movie-id');
+                const restId = $(e.currentTarget).data('rest-id');
 
                 $.ajax({
-                    url: '/RestMenus1/DeleteImage/',
-                    data: { imageName: imageName, movieId: movieId },
+                    url: '/RestMenus/DeleteImage/',
+                    data: { imageName: imageName, restId: restId },
                     success: (result) => {
                         if (!result) {
                             console.log('bad');
                             return;
                         }
 
-                        $('#movie-img').removeAttr('src');
+                        $('#rest-img').removeAttr('src');
 
                         console.log('ok');
                     }

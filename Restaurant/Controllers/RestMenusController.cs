@@ -137,7 +137,7 @@ namespace Restaurant.Controllers
             };
             _context.RestMenus.Add(rest);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "RestMenus1");
+            return RedirectToAction("Index", "RestMenus");
  
         }
 
@@ -157,7 +157,7 @@ namespace Restaurant.Controllers
             }
             var result = new RestMenusModels
             {
-                //Id = rest.Id,
+                Id = rest.Id,
                 RestName = rest.RestInfo.RestName,
                 Name = rest.Name,
                 Price = rest.Price,
@@ -172,14 +172,14 @@ namespace Restaurant.Controllers
             return View(result);
         }
 
-        public async Task<IActionResult> DeleteImage(string imageName, string movieId)
+        public async Task<IActionResult> DeleteImage(string imageName, string restId)
         {
-            if (string.IsNullOrEmpty(imageName) || string.IsNullOrEmpty(movieId))
+            if (string.IsNullOrEmpty(imageName) || string.IsNullOrEmpty(restId))
             {
                 return BadRequest();
             }
 
-            var result = await DeleteFile(imageName, movieId);
+            var result = await DeleteFile(imageName, restId);
 
             if (!result)
             {
@@ -241,26 +241,27 @@ namespace Restaurant.Controllers
                 return false; ;
             }
 
-            var movie = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(parsedMovieId));
+            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(parsedMovieId));
 
-            if (movie == null)
+            if (rest == null)
             {
                 return false;
             }
 
-            movie.ImageName = null;
+            rest.ImageName = null;
 
             await _context.SaveChangesAsync();
 
             return true;
         }
         // GET: RestMenus1/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id, string imageName, string menuId)
         {
             if (id == null)
             {
                 return NotFound();
             }
+           // var result = await DeleteFile(imageName, menuId);
 
             var restMenu = await _context.RestMenus
                 .Include(r => r.FoodCategory)
@@ -280,6 +281,9 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var restMenu = await _context.RestMenus.FindAsync(id);
+            var imageName = restMenu.ImageName;
+            var menuId = id;
+            var result = await DeleteFile(imageName, menuId.ToString());
             _context.RestMenus.Remove(restMenu);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
