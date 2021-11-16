@@ -1,9 +1,33 @@
-﻿@{
+﻿@model List<Restaurant.Models.Restaurant.ViewModels.RestInfoModels>
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .col-md {
+        margin-bottom: 25px !important;
+    }
+</style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @foreach (var rest in Model)
+    {
+        var routeDate = new Dictionary<string, string>()
+{
+            { "id", rest.Id.ToString() },
+            { "categoryId", rest.Id.ToString() }
+        };
+
+<div class="col-md">
+    <div class="card" style="width: 18rem; padding:10px">
+        <img src="~/images/@rest.ImageName" style="width:100px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
+        <div class="card-body">
+            <h5 class="card-title">@rest.RestName</h5>
+            <p class="card-text">@rest.Description</p>
+            <a asp-action="Details" asp-controller="Movie" asp-all-route-data="routeDate" class="btn btn-primary">Download</a>
+            @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
+        </div>
+    </div>
+</div>
+}
 </div>

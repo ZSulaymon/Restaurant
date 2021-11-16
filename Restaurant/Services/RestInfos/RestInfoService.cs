@@ -34,6 +34,7 @@ namespace Restaurant.Services.RestInfos
                 RestAdministrator = m.RestAdministrator,
                 RestPhone = m.RestPhone,
                 RestReferencePoint = m.RestReferencePoint,
+                Description = m.Description,
                 UpdateDate = m.UpdateDate,
                 UserId = m.UserId
             }).ToListAsync();

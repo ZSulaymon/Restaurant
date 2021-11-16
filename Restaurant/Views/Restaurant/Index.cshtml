@@ -1,12 +1,12 @@
-﻿@*@model IEnumerable<Restaurant.Models.Restaurant.RestInfo>*@
+﻿<!DOCTYPE html>
+
+@*@model IEnumerable<Restaurant.Models.Restaurant.RestInfo>*@
 @model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestInfoModels>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-
+ 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -38,6 +38,9 @@
                             @Html.DisplayNameFor(model => model.RestReferencePoint)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.RestPhone)
                         </th>
                         <th>
@@ -50,7 +53,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model) {
+                    @foreach (var item in Model) 
+                    {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.RestName)
@@ -60,6 +64,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.RestReferencePoint)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.RestPhone)
@@ -73,7 +80,7 @@
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
-}
+                    }
                 </tbody>
             </table>
 </body>
