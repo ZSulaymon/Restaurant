@@ -14,45 +14,52 @@
 </head>
 <body>
 
-<div>
-    <h4>RestInfo</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestAddress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestReferencePoint)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestReferencePoint)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestPhone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestPhone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestAdministrator)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestAdministrator)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <h4>RestInfo</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestAddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestReferencePoint)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestReferencePoint)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestPhone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestPhone)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestAdministrator)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestAdministrator)
+            </dd>
+        </dl>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <img id="movie-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
+            </div>
+        </div>
+
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
 </body>
 </html>
