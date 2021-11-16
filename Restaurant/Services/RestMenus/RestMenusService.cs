@@ -36,10 +36,7 @@ namespace Restaurant.Services.RestMenus
                 CategoryName = m.FoodCategory.Name,
                 RestName = m.RestInfo.RestName,
                 Id = m.Id,
-
-
             }).ToListAsync();
-
             return menus;
         }
         public async Task<RestMenusModels> GetById(Guid? id)
@@ -58,7 +55,27 @@ namespace Restaurant.Services.RestMenus
 
             var restMModels = _mapper.Map<RestMenusModels>(rest);
 
-            restMModels.Categories = await _context.RestMenus.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
+          //  restMModels.Categories = await _context.RestMenus.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
+
+            return restMModels;
+        }
+        public async Task<RestMenusModels> GetMenuById(Guid? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("menu with this id not found");
+            }
+
+            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.RestId.Equals(id));
+
+            if (rest == null)
+            {
+                throw new Exception("menu with this id not found");
+            }
+
+            var restMModels = _mapper.Map<RestMenusModels>(rest);
+
+          //  restMModels.Categories = await _context.RestMenus.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
 
             return restMModels;
         }

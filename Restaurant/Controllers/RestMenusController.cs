@@ -32,12 +32,10 @@ namespace Restaurant.Controllers
 
         }
 
+
         // GET: RestMenus1
         public async Task<IActionResult> Index()
         {
-            //var restaurantContext = _context.RestMenus.Include(r => r.FoodCategory).Include(r => r.RestInfo);
-            //return View(await restaurantContext.ToListAsync());
-
             var restMenu = await _restMenusService.GetAll();
             return View(restMenu);
         }

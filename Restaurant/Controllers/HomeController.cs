@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Restaurant.Models;
+using Restaurant.Services.RestInfos;
+using Restaurant.Services.RestMenus;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +14,32 @@ namespace Restaurant.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly RestInfoService _restInfoService;
+        private readonly RestMenusService _restMenusService;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, RestInfoService restInfoService, RestMenusService restMenusService )
         {
             _logger = logger;
+            _restInfoService = restInfoService;
+            _restMenusService = restMenusService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var allRest = await _restInfoService.GetAll();
+            return View(allRest);
+        }
+
+        // GET: RestMenus1
+        public async Task<IActionResult> GetManu(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var restMenuById = await _restMenusService.GetMenuById(id);
+            return View(restMenuById);
         }
 
         public IActionResult Privacy()

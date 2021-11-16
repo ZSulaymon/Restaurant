@@ -1,4 +1,4 @@
-﻿@model List<Restaurant.Models.Restaurant.ViewModels.RestInfoModels>
+﻿@model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -23,7 +23,6 @@
         <img src="~/images/@rest.ImageName" style="width:100px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
         <div class="card-body">
             <h5 class="card-title">@rest.RestName</h5>
-            <p class="card-text">@rest.Description</p>
             <a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>
             @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
         </div>
