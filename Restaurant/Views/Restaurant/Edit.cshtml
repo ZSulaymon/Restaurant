@@ -13,59 +13,104 @@
 </head>
 <body>
 
-<h4>RestInfo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ImageName" />
+    <h4>RestInfo</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImageName" />
 
-            <div class="form-group">
-                <label asp-for="RestName" class="control-label"></label>
-                <input asp-for="RestName" class="form-control" />
-                <span asp-validation-for="RestName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RestAddress" class="control-label"></label>
-                <input asp-for="RestAddress" class="form-control" />
-                <span asp-validation-for="RestAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RestReferencePoint" class="control-label"></label>
-                <input asp-for="RestReferencePoint" class="form-control" />
-                <span asp-validation-for="RestReferencePoint" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RestPhone" class="control-label"></label>
-                <input asp-for="RestPhone" class="form-control" />
-                <span asp-validation-for="RestPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RestAdministrator" class="control-label"></label>
-                <input asp-for="RestAdministrator" class="form-control" />
-                <span asp-validation-for="RestAdministrator" class="text-danger"></span>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col">
-                    <img id="movie-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
+                <div class="form-group">
+                    <label asp-for="RestName" class="control-label"></label>
+                    <input asp-for="RestName" class="form-control" />
+                    <span asp-validation-for="RestName" class="text-danger"></span>
                 </div>
-                <div>
-                    <button data-movie-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
+                <div class="form-group">
+                    <label asp-for="RestAddress" class="control-label"></label>
+                    <input asp-for="RestAddress" class="form-control" />
+                    <span asp-validation-for="RestAddress" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="RestReferencePoint" class="control-label"></label>
+                    <input asp-for="RestReferencePoint" class="form-control" />
+                    <span asp-validation-for="RestReferencePoint" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RestPhone" class="control-label"></label>
+                    <input asp-for="RestPhone" class="form-control" />
+                    <span asp-validation-for="RestPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RestAdministrator" class="control-label"></label>
+                    <input asp-for="RestAdministrator" class="form-control" />
+                    <span asp-validation-for="RestAdministrator" class="text-danger"></span>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12">
+                            <label asp-for="ImageFile"></label>
+                            <input asp-for="ImageFile" type="file" accept="image/*" class="form-control-file">
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <img id="rest-img" src="~/images/@Model.ImageName" alt="@Model.ImageName" style="max-height:100px" />
+                        </div>
+                        <div>
+                            <button data-rest-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+        $(document).ready(() => {
+            $('#remove-img-btn').click((e) => {
+
+                e.preventDefault();
+
+                const imageName = $(e.currentTarget).data('image-name');
+                const restId = $(e.currentTarget).data('rest-id');
+
+                $.ajax({
+                    url: '/Restaurant/DeleteImage/',
+                    data: { imageName: imageName, restId: restId },
+                    success: (result) => {
+                        if (!result) {
+                            console.log('bad');
+                            return;
+                        }
+
+                        $('#rest-img').removeAttr('src');
+
+                        console.log('ok');
+                    }
+                }).fail((error) => {
+                    console.error(error);
+                });
+
+            })
+        });
+        </script>
+    }
 
 </body>
 </html>

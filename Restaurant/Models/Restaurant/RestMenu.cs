@@ -27,6 +27,8 @@ namespace Restaurant.Models.Restaurant
         public Guid RestId { get; set; }
         [ForeignKey("RestId")]
         public virtual RestInfo RestInfo { get; set; }
+        //public string CategoryName { get; set; }
+
         public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual FoodCategory FoodCategory { get; set; }

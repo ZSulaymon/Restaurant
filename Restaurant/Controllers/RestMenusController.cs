@@ -49,17 +49,6 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
-            //var restMenu = await _context.RestMenus
-            //    .Include(r => r.FoodCategory)
-            //    .Include(r => r.RestInfo)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (restMenu == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(restMenu);
             var restMenu = await _restMenusService.GetById(id);
             return View(restMenu);
         }
@@ -164,6 +153,7 @@ namespace Restaurant.Controllers
                 Composition = rest.Composition,
                 CoocingTime = rest.CoocingTime,
                 ImageName = rest.ImageName,
+                //CategoryName  = rest.FoodCategory.Name,
                 Categories = await _context.FoodCategories.
                      Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
                 RestNames = await _context.RestInfo.
@@ -172,6 +162,32 @@ namespace Restaurant.Controllers
             return View(result);
         }
 
+       
+        // POST: RestMenus1/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(RestMenu model)
+        {
+            var fileName = "";
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model.ImageFile != null)
+            {
+                await DeleteFile(model.ImageName, model.Id.ToString());
+                fileName = await CopyFile(model.ImageFile);
+            }
+            await _restMenusService.Update(model, fileName);
+
+            //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", restMenu.CategoryId);
+            //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
+            return RedirectToAction("Index");
+
+            //return View();
+        }
         public async Task<IActionResult> DeleteImage(string imageName, string restId)
         {
             if (string.IsNullOrEmpty(imageName) || string.IsNullOrEmpty(restId))
@@ -188,32 +204,6 @@ namespace Restaurant.Controllers
 
             return Ok("Success");
         }
-        // POST: RestMenus1/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RestMenu model)
-        {
-            var fileName = "";
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (model.ImageFile != null)
-            {
-                await DeleteFile(model.ImageName, model.Id.ToString());
-                fileName = await CopyFile(model.ImageFile);
-            }
-            await _restMenusService.Update(model, fileName);
-
-            //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", restMenu.CategoryId);
-            //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
-            return RedirectToAction("Index");
-
-            //return View();
-        }
         [NonAction]
         private async Task<bool> DeleteFile(string imageName, string menuId)
         {
@@ -223,46 +213,36 @@ namespace Restaurant.Controllers
             }
             var rootPath = _webHostEnvironment.WebRootPath;
             var finalfilePath = Path.Combine(rootPath, "images", imageName);
-
             if (!System.IO.File.Exists(finalfilePath))
             {
                 return false;
             }
-
             await Task.Run(() =>
             {
                 System.IO.File.Delete(finalfilePath);
             });
-
             var parsedMovieIdResult = Guid.TryParse(menuId, out var parsedMovieId);
-
             if (!parsedMovieIdResult)
             {
                 return false; ;
             }
-
             var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(parsedMovieId));
-
             if (rest == null)
             {
                 return false;
             }
-
             rest.ImageName = null;
-
             await _context.SaveChangesAsync();
-
             return true;
         }
         // GET: RestMenus1/Delete/5
-        public async Task<IActionResult> Delete(Guid? id, string imageName, string menuId)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
            // var result = await DeleteFile(imageName, menuId);
-
             var restMenu = await _context.RestMenus
                 .Include(r => r.FoodCategory)
                 .Include(r => r.RestInfo)
@@ -271,10 +251,8 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
             return View(restMenu);
         }
-
         // POST: RestMenus1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -288,7 +266,6 @@ namespace Restaurant.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool RestMenuExists(Guid id)
         {
             return _context.RestMenus.Any(e => e.Id == id);

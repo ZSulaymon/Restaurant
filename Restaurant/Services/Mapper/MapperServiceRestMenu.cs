@@ -9,9 +9,9 @@ using System.Threading.Tasks;
  
 namespace Restaurant.Services.Mapper
 {
-    public class MapperService : Profile
+    public class MapperServiceRestMenu : Profile
     {
-        public MapperService()
+        public MapperServiceRestMenu()
         {
             CreateMap<RestMenu, RestMenusModels>()
                 .ForMember(r => r.Id, option => option.MapFrom(r => r.Id))
@@ -41,6 +41,8 @@ namespace Restaurant.Services.Mapper
                 //.ForMember(r => r.RestInfo.RestName, option => option.MapFrom(r => r.RestName))
                 //.ForMember(r => r.FoodCategory.Id, option => option.MapFrom(r => r.CategoryId))
                 //.ForMember(r => r.FoodCategory.Name, option => option.MapFrom(r => r.CategoryName));
+
+
 
 
 

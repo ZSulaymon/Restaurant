@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Context;
 using Restaurant.Models.Restaurant;
+using Restaurant.Models.Restaurant.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,45 +22,39 @@ namespace Restaurant.Services.RestInfos
             _mapper = mapper;
         }
 
-        public async Task<List<RestInfo>> GetAll()
+        public async Task<List<RestInfoModels>> GetAll()
         {
-            var movies = await _context.RestInfo.Select(m => new RestInfo
+            var movies = await _context.RestInfo.Select(m => new RestInfoModels
             {
-                //CategoryId = m.CategoryId,
-                //CategoryName = m.MovieCategory.Name,
-                //Description = m.Description,
-                //Director = m.Director,
-                //Id = m.Id,
-                //ImageName = m.Image,
-                //InsertDateTime = m.InsertDateTime,
-                //InsertUserId = m.InsertUserId,
-                //ReleaseDate = m.ReleaseDate,
-                //Title = m.Title,
-                //UpdateDate = m.UpdateDate,
-                //UserId = m.User.Id,
-                //UserName = m.User.UserName
-
-
+                Id = m.Id,
+                RestName = m.RestName,
+                ImageName = m.ImageName,
+                InsertDateTime = m.InsertDateTime,
+                RestAddress = m.RestAddress,
+                RestAdministrator = m.RestAdministrator,
+                RestPhone = m.RestPhone,
+                RestReferencePoint = m.RestReferencePoint,
+                UpdateDate = m.UpdateDate,
+                UserId = m.UserId
             }).ToListAsync();
-
             return movies;
         }
 
-        public async Task<RestInfo> GetById(string id)
+        public async Task<RestInfoModels> GetById(Guid? id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (id == null)
             {
-                throw new Exception("Movie with this id not found");
+                throw new Exception("Rest with this id not found");
             }
 
-            var rest = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(Guid.Parse(id)));
+            var rest = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(id));
 
             if (rest == null)
             {
-                throw new Exception("Movie with this id not found");
+                throw new Exception("Rest with this id not found");
             }
 
-            var restInfo = _mapper.Map<RestInfo>(rest);
+            var restInfo = _mapper.Map<RestInfoModels>(rest);
 
             //movieDTO.Categories = await _context.MovieCategories.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
 

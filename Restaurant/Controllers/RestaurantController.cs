@@ -29,15 +29,8 @@ namespace Restaurant.Controllers
         // GET: Restaurant
         public async Task<IActionResult> Index()
         {
-            //var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            //if (userId == null)
-            //{
-            //    return NotFound();
-            //}
-            //var restInfo = await _context.RestInfo
-            //    .FirstOrDefaultAsync(m=> m.Id = userId)
-            return View(await _context.RestInfo.ToListAsync());
+            var rest = await _restInfoService.GetAll();
+            return View(rest);
         }
 
         // GET: Restaurant/Details/5
@@ -47,38 +40,48 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
-            var restInfo = await _context.RestInfo
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (restInfo == null)
-            {
-                return NotFound();
-            }
-
-            return View(restInfo);
+ 
+            var restDet = await _restInfoService.GetById(id);
+  
+            return View(restDet);
         }
-
         // GET: Restaurant/Create
         public IActionResult Create()
         {
             return View();
+        } 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RestInfo model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            string finalFileName = null;
+            if (model.ImageFile != null)
+            {
+                finalFileName = await CopyFile(model.ImageFile);
+            }
+            var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           // var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var restInfo = new RestInfo
+            {
+                RestName = model.RestName,
+                RestAdministrator  = model.RestAdministrator,
+                RestPhone  = model.RestPhone,
+                ImageName = finalFileName,
+                InsertDateTime = DateTime.Now,
+                UserId = currenUserId,
+                RestAddress = model.RestAddress,
+                RestReferencePoint = model.RestReferencePoint,
+                UpdateDate = null
+                 
+            };
+            _context.Add(restInfo);
+                   await _context.SaveChangesAsync();
+                   return RedirectToAction(nameof(Index));
         }
-
-        // POST: Restaurant/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator,")] RestInfo restInfo)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(restInfo);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(restInfo);
-        //}
         private async Task<string> CopyFile(IFormFile imageFile)
         {
             if (imageFile == null) return null;
@@ -95,69 +98,22 @@ namespace Restaurant.Controllers
             }
             return finalFileName;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RestInfo model)
+        public async Task<IActionResult> DeleteImage(string imageName, string restId)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(imageName) || string.IsNullOrEmpty(restId))
             {
-                return View(model);
+                return BadRequest();
             }
 
-            string finalFileName = null;
+            var result = await DeleteFile(imageName, restId);
 
-            if (model.ImageFile != null)
+            if (!result)
             {
-                finalFileName = await CopyFile(model.ImageFile);
+                return BadRequest();
             }
 
-            var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-           // var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            var restInfo = new RestInfo
-            {
-                RestName = model.RestName,
-                RestAdministrator  = model.RestAdministrator,
-                RestPhone  = model.RestPhone,
-                ImageName = finalFileName,
-                InsertDateTime = DateTime.Now,
-                UserId = currenUserId,
-                RestAddress = model.RestAddress,
-                RestReferencePoint = model.RestReferencePoint,
-                UpdateDate = null
-                 
-            };
-
-            _context.Add(restInfo);
-                   await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(Index));
-
-            //_moviePortalContext.Movies.Add(movie);
-            //await _moviePortalContext.SaveChangesAsync();
-
-            //return RedirectToAction("Index", "Home");
+            return Ok("Success");
         }
-
-        // GET: Restaurant/Edit/5
-        public async Task<IActionResult> Edit(RestInfo model )
-        {
-            var fileName = "";
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (model.ImageFile != null)
-            {
-                await DeleteFile(model.ImageName, model.Id.ToString());
-                fileName = await CopyFile(model.ImageFile);
-            }
-
-           await _restInfoService.Update(model, fileName);
-
-             return View(model);
-        }
-
         [NonAction]
         private async Task<bool> DeleteFile(string imageName, string RestId)
         {
@@ -185,7 +141,7 @@ namespace Restaurant.Controllers
                 return false; ;
             }
 
-            var restinfo = await _context.RestMenus.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
+            var restinfo = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
 
             if (restinfo == null)
             {
@@ -198,40 +154,75 @@ namespace Restaurant.Controllers
 
             return true;
         }
+        // GET: Restaurant/Edit/5
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+             if (id == null)
+            {
+                return View(id);
+            }
+            var restMenu = await _context.RestInfo.FindAsync(id);
+            if (restMenu == null)
+            {
+                return NotFound();
+            }
+            return View(restMenu);
+        }
 
         // POST: Restaurant/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator")] RestInfo restInfo)
+        //{
+        //    if (id != restInfo.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(restInfo);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!RestInfoExists(restInfo.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(restInfo);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator")] RestInfo restInfo)
+        public async Task<IActionResult> Edit(RestInfo model)
         {
-            if (id != restInfo.Id)
+            var fileName = "";
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View(model);
             }
+            if (model.ImageFile != null)
+            {
+                await DeleteFile(model.ImageName, model.Id.ToString());
+                fileName = await CopyFile(model.ImageFile);
+            }
+            await _restInfoService.Update(model, fileName);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(restInfo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RestInfoExists(restInfo.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(restInfo);
+            //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", restMenu.CategoryId);
+            //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
+            return RedirectToAction("Index");
+
+            //return View();
         }
 
         // GET: Restaurant/Delete/5
@@ -241,7 +232,6 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
             var restInfo = await _context.RestInfo
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restInfo == null)
@@ -258,6 +248,9 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var restInfo = await _context.RestInfo.FindAsync(id);
+            var imageName = restInfo.ImageName;
+            var menuId = id;
+            var result = await DeleteFile(imageName, menuId.ToString());
             _context.RestInfo.Remove(restInfo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
