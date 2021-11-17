@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>
+﻿@*@model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>*@
+@model List<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -20,9 +22,13 @@
 
 <div class="col-md">
     <div class="card" style="width: 18rem; padding:10px">
-        <img src="~/images/@rest.ImageName" style="width:100px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
+        <img src="~/images/@rest.ImageName" style="width:150px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
         <div class="card-body">
-            <h5 class="card-title">@rest.RestName</h5>
+            <h6 class="card-title">Имя:@rest.RestName</h6>
+            <pre class="card-subtitle"><b>Цена:</b> @rest.Price</pre>
+            <pre class="card-subtitle"><b>Время приготовления:</b> @rest.CoocingTime</pre>
+            <pre class="card-subtitle"><b>Состав:</b> @rest.Composition</pre>
+            <pre class="card-subtitle"><b>Описание:</b> @rest.Decription</pre>
             <a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>
             @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
         </div>

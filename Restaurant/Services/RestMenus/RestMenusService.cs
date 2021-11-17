@@ -32,6 +32,7 @@ namespace Restaurant.Services.RestMenus
                 Price = m.Price,
                 ImageName = m.ImageName,
                 Composition = m.Composition,
+                Decription = m.Decription,
                 RestId = m.RestId,
                 CategoryName = m.FoodCategory.Name,
                 RestName = m.RestInfo.RestName,
@@ -59,25 +60,25 @@ namespace Restaurant.Services.RestMenus
 
             return restMModels;
         }
-        public async Task<RestMenusModels> GetMenuById(Guid? id)
+        public async Task<List<RestMenusModels>> GetMenuById(Guid? id)
         {
-            if (id == null)
+            var menus = await (from m in  _context.RestMenus
+                         where m.RestId == id 
+                         select new RestMenusModels
             {
-                throw new Exception("menu with this id not found");
-            }
-
-            var rest = await _context.RestMenus.FirstOrDefaultAsync(p => p.RestId.Equals(id));
-
-            if (rest == null)
-            {
-                throw new Exception("menu with this id not found");
-            }
-
-            var restMModels = _mapper.Map<RestMenusModels>(rest);
-
-          //  restMModels.Categories = await _context.RestMenus.Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }).ToListAsync();
-
-            return restMModels;
+                Name = m.Name,
+                CategoryId = m.CategoryId,
+                CoocingTime = m.CoocingTime,
+                Price = m.Price,
+                ImageName = m.ImageName,
+                Composition = m.Composition,
+                Decription = m.Decription,
+                RestId = m.RestId,
+                CategoryName = m.FoodCategory.Name,
+                RestName = m.RestInfo.RestName,
+                Id = m.Id,
+            }).ToListAsync();
+            return menus;
         }
 
         public async Task Update(RestMenu model, string fileName)

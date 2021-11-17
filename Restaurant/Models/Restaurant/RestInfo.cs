@@ -19,6 +19,8 @@ namespace Restaurant.Models.Restaurant
         public DateTime? UpdateDate { get; set; }
         public string RestReferencePoint { get; set; }
         public string Description { get; set; }
+        public string Kitchen { get; set; }
+
         public string RestPhone { get; set; }
         public string RestAdministrator { get; set; }
         public string ImageName { get; set; }

@@ -35,8 +35,13 @@
                 <span asp-validation-for="RestReferencePoint" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Kitchen" class="control-label"></label>
+                <input asp-for="Kitchen" class="form-control" />
+                <span asp-validation-for="Kitchen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control" placeholder="Макс 92 букв"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

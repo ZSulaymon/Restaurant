@@ -18,6 +18,7 @@ namespace Restaurant.Models.Restaurant.ViewModels
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         public string CoocingTime { get; set; }
+        public string Decription { get; set; }
         public DateTime? UpdateDate { get; set; }
         public DateTime InsertDataTime { get; set; }
         public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();

@@ -32,7 +32,7 @@ namespace Restaurant.Controllers
         }
 
         // GET: RestMenus1
-        public async Task<IActionResult> GetManu(Guid? id)
+        public async Task<IActionResult> GetMenu(Guid? id)
         {
             if (id == null)
             {

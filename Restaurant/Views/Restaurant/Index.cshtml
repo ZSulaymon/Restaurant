@@ -13,13 +13,16 @@
     <title>Index</title>
 </head>
 <body>
-    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+    <div >
         <ul class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <li class="navbar-nav">
                 <a  class="nav-link text-dark" asp-area="" asp-controller="RestMenus" asp-action="Create">Создать меню</a> 
              </li>
             <li class="navbar-nav">
                 <a class="nav-link text-dark" asp-area="" asp-action="Create">Создать ресторан</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link text-dark" asp-area="" asp-action="">  Заказы</a>
             </li>
         </ul>
      </div>
@@ -39,6 +42,9 @@
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Kitchen)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.RestPhone)
@@ -67,6 +73,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kitchen)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.RestPhone)
