@@ -22,14 +22,16 @@
 
 <div class="col-md">
     <div class="card" style="width: 18rem; padding:10px">
-        <img src="~/images/@rest.ImageName" style="width:150px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
+        <img src="~/images/@rest.ImageName" style="width:230px; height:100px; align-self:center" class="card-img-top" alt="@rest.ImageName">
         <div class="card-body">
             <h6 class="card-title">Имя:@rest.RestName</h6>
             <pre class="card-subtitle"><b>Цена:</b> @rest.Price</pre>
             <pre class="card-subtitle"><b>Время приготовления:</b> @rest.CoocingTime</pre>
             <pre class="card-subtitle"><b>Состав:</b> @rest.Composition</pre>
-            <pre class="card-subtitle"><b>Описание:</b> @rest.Decription</pre>
-            <a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>
+            <pre class="card-subtitle"><b>Описание:</b> @rest.Description</pre>
+            @*<a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>*@
+            <a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Заказать</a>
+            <a asp-action="Details" asp-controller="RestMenus" asp-all-route-data="routeDate" class="btn btn-primary">Подробно</a>
             @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
         </div>
     </div>

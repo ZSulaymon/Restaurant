@@ -32,7 +32,7 @@ namespace Restaurant.Services.RestMenus
                 Price = m.Price,
                 ImageName = m.ImageName,
                 Composition = m.Composition,
-                Decription = m.Decription,
+                Description = m.Description,
                 RestId = m.RestId,
                 CategoryName = m.FoodCategory.Name,
                 RestName = m.RestInfo.RestName,
@@ -62,22 +62,25 @@ namespace Restaurant.Services.RestMenus
         }
         public async Task<List<RestMenusModels>> GetMenuById(Guid? id)
         {
-            var menus = await (from m in  _context.RestMenus
-                         where m.RestId == id 
-                         select new RestMenusModels
-            {
-                Name = m.Name,
-                CategoryId = m.CategoryId,
-                CoocingTime = m.CoocingTime,
-                Price = m.Price,
-                ImageName = m.ImageName,
-                Composition = m.Composition,
-                Decription = m.Decription,
-                RestId = m.RestId,
-                CategoryName = m.FoodCategory.Name,
-                RestName = m.RestInfo.RestName,
-                Id = m.Id,
-            }).ToListAsync();
+            //List<RestMenu> menus = new List<RestMenu>(); 
+            //menus =  await _context.RestMenus.FirstOrDefault(m => m.RestId == id);
+            
+            var menus = await (from m in _context.RestMenus
+                               where m.RestId == id
+                               select new RestMenusModels
+                               {
+                                   Name = m.Name,
+                                   CategoryId = m.CategoryId,
+                                   CoocingTime = m.CoocingTime,
+                                   Price = m.Price,
+                                   ImageName = m.ImageName,
+                                   Composition = m.Composition,
+                                   Description = m.Description,
+                                   RestId = m.RestId,
+                                   CategoryName = m.FoodCategory.Name,
+                                   RestName = m.RestInfo.RestName,
+                                   Id = m.Id,
+                               }).ToListAsync();
             return menus;
         }
 

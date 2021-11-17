@@ -18,13 +18,12 @@ namespace Restaurant.Models.Restaurant
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         public string CoocingTime { get; set; }
-        public string Decription { get; set; }
-
+        public string Description { get; set; }
         public string ImageName { get; set; }
         public DateTime? UpdateDate { get; set; }
        [NotMapped]
         public IFormFile ImageFile { get; set; }
-        public DateTime? InsertDataTime { get; set; }
+        public DateTime InsertDataTime { get; set; }
         [Required]
         public Guid RestId { get; set; }
         [ForeignKey("RestId")]

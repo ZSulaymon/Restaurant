@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Restaurant.Services.RestInfos;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Restaurant.Controllers
 {
     public class RestaurantController : Controller
@@ -25,7 +27,6 @@ namespace Restaurant.Controllers
             _webHostEnvironment = webHostEnvironment;
             _restInfoService = restInfoService;
         }
-
         // GET: Restaurant
         public async Task<IActionResult> Index()
         {

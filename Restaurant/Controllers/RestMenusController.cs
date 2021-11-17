@@ -112,6 +112,7 @@ namespace Restaurant.Controllers
             var rest = new RestMenu
             {
                 Id = Guid.NewGuid(),
+                InsertDataTime = DateTime.Now,
                 CategoryId = model.CategoryId,
                 Name = model.Name,
                 Composition = model.Composition,
@@ -119,7 +120,7 @@ namespace Restaurant.Controllers
                 CoocingTime = model.CoocingTime,
                 Price = model.Price,
                 RestId = model.RestId,
-                InsertDataTime = DateTime.Now,
+                Description = model.Description,
                 UpdateDate = null
             };
             _context.RestMenus.Add(rest);
@@ -151,6 +152,8 @@ namespace Restaurant.Controllers
                 Composition = rest.Composition,
                 CoocingTime = rest.CoocingTime,
                 ImageName = rest.ImageName,
+                Description = rest.Description,
+                
                 //CategoryName  = rest.FoodCategory.Name,
                 Categories = await _context.FoodCategories.
                      Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
