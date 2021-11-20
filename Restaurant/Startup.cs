@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Restaurant.Services;
 using Restaurant.Services.RestMenus;
+using Restaurant.Models.Restaurant;
 
 namespace Restaurant
 {
@@ -38,6 +39,13 @@ namespace Restaurant
             //services.AddAutoMapper(typeof(Startup));
             services.InitServices();
             services.AddControllersWithViews();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShopCart.GetCart(sp));
+
+            services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
+            
            
 
 
@@ -103,7 +111,7 @@ namespace Restaurant
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
