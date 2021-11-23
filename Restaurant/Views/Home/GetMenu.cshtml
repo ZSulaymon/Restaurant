@@ -56,11 +56,13 @@
             <pre class="card-subtitle"><b>Описание:</b> @rest.Description</pre>
             @*<a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>*@
             @*<a asp-all-route-data="routeDate"  class="btn btn-success">В корзину</a>*@
-            <a asp-action="Details" asp-controller="RestMenus" asp-route-id="@rest.Id" class="btn btn-outline-success"> <span class="glyphicon glyphicon-shopping-cart"></span>Подробно</a>
-            <!--<input type="button" name="AddToCart"   value="Add to Cart" class="btn btn-success"--> @*itemid="@rest.Id"*@ <!--id="btnAddToCart" onclick="AddToCart(this)">-->    
-            <p> @*<a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-all-route-data="routeDate">Добавить в корзину </a>*@</p>
-            <p> <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@rest.Id">Добавить в корзину </a></p>
-    @*<a asp-action="GetMenu" asp-route-id="@rest.Id">Delete</a>*@
+            <a asp-action="Details" asp-controller="RestMenus" asp-route-id="@rest.Id" class="btn btn-warning"> <span class="glyphicon glyphicon-shopping-cart"></span>Подробно</a>
+            @*<input type="button" name="AddToCart" value="Add to Cart" class="btn btn-success" itemid="@rest.Id id="btnAddToCart" onclick="AddToCart(this)">*@
+            @*<input type="button" asp-controller="ShopCart" value="Add to Cart" asp-action="AddToCart" class="btn btn-success" asp-route-id="@rest.Id" onclick="AddToCart(this)" />*@
+
+            @*<p> <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-all-route-data="routeDate">Добавить в корзину </a></p>*@
+            <a class="btn btn-success" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@rest.Id">В корзину </a>
+            @*<a asp-action="GetMenu" asp-route-id="@rest.Id">Delete</a>*@
 
             @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
         </div>

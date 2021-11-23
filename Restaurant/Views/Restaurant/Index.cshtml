@@ -29,7 +29,7 @@
         </ul>
      </div>
 
-
+    <h3>@ViewBag.Message</h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -47,6 +47,9 @@
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Kitchen)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tables)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.RestPhone)
@@ -78,6 +81,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Kitchen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tables)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.RestPhone)

@@ -43,15 +43,16 @@ namespace Restaurant.Controllers
             return View(obj);
         }
 
-        public RedirectToActionResult addToCart(Guid id)
+        public RedirectToActionResult AddToCart(Guid id)
         {
             var item = _context.RestMenus.FirstOrDefault(i => i.Id == id);
             if (item != null)
             {
                 _shopCart.AddToCart(item);
             }
-            //return RedirectToAction("Index");
-            return RedirectToAction($"GetMenu", "Home");
+            return RedirectToAction("Index");
+            //return RedirectToAction($"GetMenu", "Home");
         }
+
     }
 }

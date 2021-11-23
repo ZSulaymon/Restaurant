@@ -21,7 +21,7 @@ namespace Restaurant.Models.Restaurant
         public string Description { get; set; }
         public string ImageName { get; set; }
         public DateTime? UpdateDate { get; set; }
-       [NotMapped]
+        [NotMapped]
         public IFormFile ImageFile { get; set; }
         public DateTime InsertDataTime { get; set; }
         [Required]
@@ -29,7 +29,6 @@ namespace Restaurant.Models.Restaurant
         [ForeignKey("RestId")]
         public virtual RestInfo RestInfo { get; set; }
         //public string CategoryName { get; set; }
-
         public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual FoodCategory FoodCategory { get; set; }

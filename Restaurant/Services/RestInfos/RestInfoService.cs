@@ -33,6 +33,7 @@ namespace Restaurant.Services.RestInfos
                 RestAddress = m.RestAddress,
                 RestAdministrator = m.RestAdministrator,
                 RestPhone = m.RestPhone,
+                Tables = m.Tables,
                 RestReferencePoint = m.RestReferencePoint,
                 Description = m.Description,
                 Kitchen = m.Kitchen,

@@ -10,8 +10,8 @@ using Restaurant.Context;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20211123034702_AddOrders2")]
-    partial class AddOrders2
+    [Migration("20211123122007_AddOrders7")]
+    partial class AddOrders7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,7 +233,7 @@ namespace Restaurant.Migrations
 
             modelBuilder.Entity("Restaurant.Models.Restaurant.Order", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -241,10 +241,13 @@ namespace Restaurant.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
@@ -255,7 +258,7 @@ namespace Restaurant.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
@@ -266,13 +269,10 @@ namespace Restaurant.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("MenuId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("Ordersid")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
@@ -283,7 +283,7 @@ namespace Restaurant.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Ordersid");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("RestMenuId");
 
@@ -322,6 +322,9 @@ namespace Restaurant.Migrations
 
                     b.Property<string>("RestReferencePoint")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tables")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
@@ -458,7 +461,9 @@ namespace Restaurant.Migrations
                 {
                     b.HasOne("Restaurant.Models.Restaurant.Order", "Orders")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("Ordersid");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Restaurant.Models.Restaurant.RestMenu", "RestMenu")
                         .WithMany()

@@ -14,7 +14,7 @@ namespace Restaurant.Models.Restaurant
         [Column(TypeName="decimal(18,2)")]
         public decimal Price { get; set; }
         public virtual RestMenu RestMenu { get; set; }
-        public virtual Order  Orders { get; set; }
+        public virtual Order Orders { get; set; }
 
     }
 }

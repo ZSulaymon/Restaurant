@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Restaurant.Services.RestInfos;
 using Microsoft.AspNetCore.Authorization;
+using Restaurant.Models.Restaurant.ViewModels;
 
 namespace Restaurant.Controllers
 {
@@ -75,6 +76,7 @@ namespace Restaurant.Controllers
                 InsertDateTime = DateTime.Now,
                 UserId = currenUserId,
                 RestAddress = model.RestAddress,
+                Tables = model.Tables,
                 RestReferencePoint = model.RestReferencePoint,
                 Description = model.Description,
                 UpdateDate = null
@@ -106,14 +108,11 @@ namespace Restaurant.Controllers
             {
                 return BadRequest();
             }
-
             var result = await DeleteFile(imageName, restId);
-
             if (!result)
             {
                 return BadRequest();
             }
-
             return Ok("Success");
         }
         [NonAction]
@@ -125,35 +124,26 @@ namespace Restaurant.Controllers
             }
             var rootPath = _webHostEnvironment.WebRootPath;
             var finalfilePath = Path.Combine(rootPath, "images", imageName);
-
             if (!System.IO.File.Exists(finalfilePath))
             {
                 return false;
             }
-
             await Task.Run(() =>
             {
                 System.IO.File.Delete(finalfilePath);
             });
-
             var parsedRestIdInfoResult = Guid.TryParse(RestId, out var parsedRestId);
-
             if (!parsedRestIdInfoResult )
             {
                 return false; ;
             }
-
             var restinfo = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(parsedRestId));
-
             if (restinfo == null)
             {
                 return false;
             }
-
             restinfo.ImageName = null;
-
             await _context.SaveChangesAsync();
-
             return true;
         }
         // GET: Restaurant/Edit/5
@@ -219,11 +209,9 @@ namespace Restaurant.Controllers
                 fileName = await CopyFile(model.ImageFile);
             }
             await _restInfoService.Update(model, fileName);
-
             //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", restMenu.CategoryId);
             //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
             return RedirectToAction("Index");
-
             //return View();
         }
 
@@ -240,10 +228,8 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-
             return View(restInfo);
         }
-
         // POST: Restaurant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

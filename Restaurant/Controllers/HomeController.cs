@@ -38,7 +38,7 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var allRest = await _restInfoService.GetAll();
-            return (IActionResult)View(allRest);
+            return View(allRest);
         }
 
         // GET: RestMenus1
@@ -89,28 +89,33 @@ namespace Restaurant.Controllers
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}
-        public async Task<Microsoft.AspNetCore.Mvc.JsonResult>  GetMenuId(Guid ItemId)
-        {
-            //if (ItemId == null)
-            //{
-            //    return View(GetMenu);
-            //}
-            if (ItemId == null)
-            {
-                return (Microsoft.AspNetCore.Mvc.JsonResult)NotFound();
-            }
-            var restMenuById = await _restMenusService.GetMenuById(ItemId);
-            //return View(restMenuById);
+        //public async Task<Microsoft.AspNetCore.Mvc.JsonResult>  GetMenuId(Guid ItemId)
+        //{
+        //    //if (ItemId == null)
+        //    //{
+        //    //    return View(GetMenu);
+        //    //}
+        //    if (ItemId == null)
+        //    {
+        //        return (Microsoft.AspNetCore.Mvc.JsonResult)NotFound();
+        //    }
+        //    var restMenuById = await _restMenusService.GetMenuById(ItemId);
+        //    //return View(restMenuById);
 
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
+        //    return Json("", JsonRequestBehavior.AllowGet);
+        //}
 
-      
+        //public IActionResult Complete()
+        //{
+        //    ViewBag.Message = "Заказ успешно обработан";
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
-            return (IActionResult)View();
+            return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

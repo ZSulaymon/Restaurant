@@ -3,7 +3,7 @@
         @foreach (var el in Model.shopCart.listShopItems)
         {
             <div class="alert alert-warning mt-3">
-                <b> Меню</b> @el.RestMenu.Name <br />
+                <b>Имя</b> @el.RestMenu.Name <br />
                 <b>Цена:</b> @el.RestMenu.Price.ToString("C")
             </div>
         }

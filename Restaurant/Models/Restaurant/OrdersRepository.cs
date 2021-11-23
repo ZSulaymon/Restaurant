@@ -30,7 +30,7 @@ namespace Restaurant.Models.Restaurant
                 var orderDetail = new OrderDetail()
                 {
                     MenuId = el.RestMenu.Id,
-                    OrderId = order.id,
+                    OrderId = order.Id,
                     Price = el.RestMenu.Price,
                 };
                 _context.OrderDetails.Add(orderDetail);

@@ -1,4 +1,5 @@
-﻿using Restaurant.Models.Account;
+﻿using Microsoft.AspNetCore.Http;
+using Restaurant.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,10 +17,12 @@ namespace Restaurant.Models.Restaurant.ViewModels
         public DateTime? UpdateDate { get; set; }
         public string Description { get; set; }
         public string Kitchen { get; set; }
+        public int Tables { get; set; }
         public string RestReferencePoint { get; set; }
         public string RestPhone { get; set; }
         public string RestAdministrator { get; set; }
         [Display(Name = "Картинка")]
+        public IFormFile ImageFile { get; set; }
         public string ImageName { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
