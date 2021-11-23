@@ -11,7 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Customers\**" />
+    <Compile Remove="Models\Orders\**" />
+    <Content Remove="Models\Customers\**" />
+    <Content Remove="Models\Orders\**" />
+    <EmbeddedResource Remove="Models\Customers\**" />
+    <EmbeddedResource Remove="Models\Orders\**" />
     <None Remove="C:\Users\user\.nuget\packages\microsoft.net.compilers\1.0.0\build\..\tools\**" />
+    <None Remove="Models\Customers\**" />
+    <None Remove="Models\Orders\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,8 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Customers\" />
-    <Folder Include="Models\Orders\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

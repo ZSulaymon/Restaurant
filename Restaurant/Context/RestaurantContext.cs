@@ -22,7 +22,10 @@ namespace Restaurant.Context
         public DbSet<RestInfo> RestInfo { get; set; }
         public DbSet<RestMenu> RestMenus { get; set; }
         public DbSet<FoodCategory> FoodCategories { get; set; }
-        public DbSet<ShopCartItem>  shopCartItems { get; set; }
+        public DbSet<ShopCartItem>  ShopCartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         //public IEnumerable RestInfoModels { get; internal set; }
         //public IEnumerable RestMenusModels { get; internal set; }
 

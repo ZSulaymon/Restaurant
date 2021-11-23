@@ -40,9 +40,9 @@ namespace Restaurant.Models.Restaurant
 
             return new ShopCart(context) { ShopCartId = shopCartId }; 
         }
-        public void AddToCart(RestMenu RestMenu, int amount)
+        public void AddToCart(RestMenu RestMenu)
         {
-            _context.shopCartItems.Add(new ShopCartItem
+            _context.ShopCartItems.Add(new ShopCartItem
             {
                 ShopCartId = ShopCartId,
                 RestMenu = RestMenu,
@@ -54,7 +54,7 @@ namespace Restaurant.Models.Restaurant
 
         public List<ShopCartItem> getShopItems() 
         {
-            return _context.shopCartItems.Where(c => c.ShopCartId == ShopCartId).Include(s => s.RestMenu).ToList();
+            return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).Include(s => s.RestMenu).ToList();
         }
 
     }

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Restaurant.Services;
 using Restaurant.Services.RestMenus;
 using Restaurant.Models.Restaurant;
+using Restaurant.Models.Interfaces;
 
 namespace Restaurant
 {
@@ -39,6 +40,8 @@ namespace Restaurant
             //services.AddAutoMapper(typeof(Startup));
             services.InitServices();
             services.AddControllersWithViews();
+            //add interfaces
+            services.AddTransient<IAllOrders, OrdersRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShopCart.GetCart(sp));
 
