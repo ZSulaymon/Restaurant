@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Context;
@@ -42,20 +43,48 @@ namespace Restaurant.Models.Restaurant
         }
         public void AddToCart(RestMenu RestMenu)
         {
+           
             _context.ShopCartItems.Add(new ShopCartItem
             {
                 ShopCartId = ShopCartId,
                 RestMenu = RestMenu,
                 Price = RestMenu.Price,
-            });
-
+                Quantity = 1,
+                Total = RestMenu.Price
+            }) ;
             _context.SaveChanges();
         }
+        public void UpAddToCart(RestMenu RestMenu)
+        {
+            // var item = _context.RestMenus.FirstOrDefault(i => i.Id == id);
+            // 
+            // SelectList persons = new SelectList(_context.listShopItems, "Id", "FirstName");
 
+            //  ViewBag.persons = persons;
+            //if (RestMenu.Id == )
+            //{
+            //    var count = listShopItems.ToString();
+            //}
+            //foreach ( cust in _context.ShopCartItems)
+            //{
+            //    if (cust.IsValid)
+            //    {
+            //        cust.CreditLimit = 1000;
+            //    }
+            //}
+            var Index = 1;
+            _context.ShopCartItems.Add(new ShopCartItem
+            {
+                ShopCartId = ShopCartId,
+                RestMenu = RestMenu,
+                Price = RestMenu.Price,
+                Quantity = Index,
+            }) ;
+            _context.SaveChanges();
+         }
         public List<ShopCartItem> getShopItems() 
         {
             return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).Include(s => s.RestMenu).ToList();
         }
-
     }
 }
