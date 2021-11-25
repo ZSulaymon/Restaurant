@@ -388,14 +388,14 @@ namespace Restaurant.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("RestMenuId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShopCartId")
                         .HasColumnType("nvarchar(max)");
@@ -405,7 +405,7 @@ namespace Restaurant.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RestMenuId");
+                    b.HasIndex("MenuId");
 
                     b.ToTable("ShopCartItems");
                 });
@@ -510,7 +510,9 @@ namespace Restaurant.Migrations
                 {
                     b.HasOne("Restaurant.Models.Restaurant.RestMenu", "RestMenu")
                         .WithMany()
-                        .HasForeignKey("RestMenuId");
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("RestMenu");
                 });

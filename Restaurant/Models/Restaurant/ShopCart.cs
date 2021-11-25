@@ -41,7 +41,7 @@ namespace Restaurant.Models.Restaurant
 
             return new ShopCart(context) { ShopCartId = shopCartId }; 
         }
-        public void AddToCart(RestMenu RestMenu)
+        public async Task AddToCart(RestMenu RestMenu)
         {
            
             _context.ShopCartItems.Add(new ShopCartItem
@@ -50,41 +50,35 @@ namespace Restaurant.Models.Restaurant
                 RestMenu = RestMenu,
                 Price = RestMenu.Price,
                 Quantity = 1,
-                Total = RestMenu.Price
+                Total = RestMenu.Price,
+                MenuId = RestMenu.Id                               
             }) ;
             _context.SaveChanges();
         }
-        public void UpAddToCart(RestMenu RestMenu)
+        public async Task UpAddToCart(ShopCartItem item)
         {
-            // var item = _context.RestMenus.FirstOrDefault(i => i.Id == id);
-            // 
-            // SelectList persons = new SelectList(_context.listShopItems, "Id", "FirstName");
-
-            //  ViewBag.persons = persons;
-            //if (RestMenu.Id == )
-            //{
-            //    var count = listShopItems.ToString();
-            //}
-            //foreach ( cust in _context.ShopCartItems)
-            //{
-            //    if (cust.IsValid)
-            //    {
-            //        cust.CreditLimit = 1000;
-            //    }
-            //}
-            var Index = 1;
-            _context.ShopCartItems.Add(new ShopCartItem
+            //if (item != null && item.MenuId ==item.RestMenu.Id)
+            if (item != null)
             {
-                ShopCartId = ShopCartId,
-                RestMenu = RestMenu,
-                Price = RestMenu.Price,
-                Quantity = Index,
-            }) ;
-            _context.SaveChanges();
+                item.Quantity++;
+                item.Total = item.Quantity * item.Price;
+            }
+             _context.SaveChanges();
          }
         public List<ShopCartItem> getShopItems() 
         {
             return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).Include(s => s.RestMenu).ToList();
         }
+
+        public List<ShopCartItem> getShopItems(Guid? id)
+        {
+            return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId && c.RestMenu.Id ==id).ToList();
+        }
+
+        //public List<RestMenu> getShopItemss()
+        //{
+        //    return    _context.ShopCartItems.Where(c => c.MenuId == id || c.ShopCartId == ShopCartId).ToList();
+
+        //}
     }
 }

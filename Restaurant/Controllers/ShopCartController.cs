@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Restaurant.Context;
 using Restaurant.Models.Restaurant;
 using Restaurant.Models.Restaurant.ViewModels;
@@ -55,66 +56,30 @@ namespace Restaurant.Controllers
             ViewBag.Message = "Заказ успешно обработан";
             return View();
         }
-        public RedirectToActionResult AddToCart(Guid id)
-        {
-            var getListItems = _shopCart.getShopItems();
-            //var product = _shopCart.listShopItems.Where(p => p.RestMenu.Id).SingleOrDefault(p => p.ItemId == itemId);
-            //var getItems1 = getListItems.Where(c => (c.RestMenu.Id == id) ? false : true) ==null;
-            //foreach (var el in getListItems)
-            //{
-            //    bool idcart = el.Id == id;
-            //}
-            //var getItems1 = getListItems.Where(c => c.RestMenu.Id == id);
-            //return _context.ShopCartItems.Where(c => c.ShopCartId == ).Include(s => s.RestMenu).ToList();
-            
-             // _shopCart.listShopItems = items;
-            //var count = items.Count;
-            //var menuId = items
+        //public IActionResult AddToCart(Guid id)
+        public async Task<RedirectToActionResult> AddToCart(Guid? id)
 
-            //if (_context.RestMenus.Where(i=> i.Id == id) !=  null)
-            //{
-            //    //var count = listShopItems.ToString();
-            //}
-            var item = _context.RestMenus.FirstOrDefault(i => i.Id == id);
-            //SelectList persons = new SelectList(item.Price, "Id", "Name");
-            //item.Price
-            //ViewBag.persons = persons;
-            //var total = item. *
-            //count = items.Count;
-            //item. 
+        {       
+            var items =  _shopCart.getShopItems(id);
+            var menu =  _context.RestMenus.FirstOrDefault(i => i.Id == id);
 
-            if (getListItems.FirstOrDefault(i => i.RestMenu.Id == id) == null)
+             ShopCartItem item = new ShopCartItem();
+            if (items.Count >0)
             {
-                _shopCart.AddToCart(item);
+                item = items.Find(x => x.RestMenu.Id == id);
+            }
+            if (item != null && item.RestMenu?.Id == id)
+            {
+              
+               await _shopCart.UpAddToCart(item);          
             }
             else
             {
-                //if (getListItems != null && getListItems.RestMenu.Id == id)
-                //{ 
-                    foreach (var el in getListItems)
-                {
-                    if (el !=null && el.RestMenu.Id == id)
-                    {
-                        el.Quantity = el.Quantity + 1;
-                        el.Total = el.Quantity * el.Price;
-                    }
-                    _context.SaveChangesAsync();
-
-                }
- 
-                //_shopCart.UpAddToCart(item);
+                await _shopCart.AddToCart(menu);
             }
-            // count = items.Count;
-
             return RedirectToAction("Index");
-
-            //return RedirectToAction($"GetMenu", "Home");
-        }
-
-        //public List<ShopCartItem> getShopItems()
-        //{
-        //    return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId).Include(s => s.RestMenu).ToList();
-        //}
+         }
+        
 
     }
 }
