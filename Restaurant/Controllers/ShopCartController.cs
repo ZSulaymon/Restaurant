@@ -79,7 +79,20 @@ namespace Restaurant.Controllers
             }
             return RedirectToAction("Index");
          }
-        
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var shoopCart = await _context.ShopCartItems.FindAsync(id);
+ 
+            _context.ShopCartItems.Remove(shoopCart);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
+         }        
     }
 }
