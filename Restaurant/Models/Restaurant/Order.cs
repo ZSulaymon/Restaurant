@@ -11,7 +11,7 @@ namespace Restaurant.Models.Restaurant
     {
         [BindNever]                                     //никогда не будет показано на страничке.
         public Guid Id { get; set; }
-        [Display(Name = "Введите имя")]
+        [Display(Name = "Имя")]
         [StringLength(25)]
         [Required(ErrorMessage = "Длина имя не менее 5 символов")]
         public string Name { get; set; }

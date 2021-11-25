@@ -1,0 +1,72 @@
+﻿@model Restaurant.Models.Restaurant.OrderDetail
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+    <div>
+        <h4>OrderDetail</h4>
+        <hr />
+
+      
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Orders.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Orders.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Orders.Phone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Orders.Phone)
+            </dd> 
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestMenu.Composition)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestMenu.Composition)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestMenu.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestMenu.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestMenu.CoocingTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestMenu.CoocingTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestMenu.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestMenu.Price)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RestMenu.UpdateDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestMenu.UpdateDate)
+            </dd>
+            
+            
+
+        </dl>
+    </div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

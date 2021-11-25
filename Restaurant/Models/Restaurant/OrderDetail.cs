@@ -11,9 +11,11 @@ namespace Restaurant.Models.Restaurant
         public Guid Id { get; set; }
         public Guid OrderId { get; set; }
         public Guid MenuId { get; set; }
-        [Column(TypeName="decimal(18,2)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        [ForeignKey("MenuId")]
         public virtual RestMenu RestMenu { get; set; }
+        [ForeignKey("OrderId")]
         public virtual Order Orders { get; set; }
 
     }

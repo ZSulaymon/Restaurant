@@ -38,12 +38,27 @@ namespace Restaurant.Controllers
         //}
         public async Task<IActionResult> Index()
         {
-            var orders = await _context.OrderDetails.FirstOrDefaultAsync();
+             var restaurantContext = _context.OrderDetails.Include(o => o.Orders);
+            return View(await restaurantContext.ToListAsync());
+        }
 
-            //var restaurantContext = ;
-            //return View(await restaurantContext.ToListAsync());
-            //var allMenu = await _restMenusService.GetAll();
-            return View(orders);
+        // GET: Orders/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var orderDetail = await _context.OrderDetails
+                .Include(o => o.Orders)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+
+            return View(orderDetail);
         }
         [HttpPost]
         public IActionResult Checkout(Order order)
@@ -67,6 +82,35 @@ namespace Restaurant.Controllers
         {
             ViewBag.Message = "Заказ успешно обработан";
             return View();
+        }
+
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var orderDetail = await _context.OrderDetails
+                .Include(o => o.Orders)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+
+            return View(orderDetail);
+        }
+
+        // POST: Orders/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var orderDetail = await _context.OrderDetails.FindAsync(id);
+            _context.OrderDetails.Remove(orderDetail);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

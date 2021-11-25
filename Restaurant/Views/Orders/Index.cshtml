@@ -1,4 +1,9 @@
 ﻿@model IEnumerable<Restaurant.Models.Restaurant.OrderDetail>
+
+@{
+    Layout = null;
+}
+
 <!DOCTYPE html>
 
 <html>
@@ -13,24 +18,14 @@
 <table class="table">
     <thead>
         <tr>
-
             <th>
-                @Html.DisplayNameFor(model => model.Orders.Name)
+                @Html.DisplayNameFor(model => model.MenuId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Orders.OrderTime)
+                @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RestMenu.CoocingTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Orders.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestMenu.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Orders.Email)
+                @Html.DisplayNameFor(model => model.Orders)
             </th>
             <th></th>
         </tr>
@@ -38,21 +33,11 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-
             <td>
-                @Html.DisplayFor(modelItem => item.Orders.Name)
+                @Html.DisplayFor(modelItem => item.MenuId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Orders.OrderTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestMenu.CoocingTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Orders.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestMenu.Name)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Orders.Email)
