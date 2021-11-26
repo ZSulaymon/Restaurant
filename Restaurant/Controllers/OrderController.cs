@@ -39,7 +39,7 @@ namespace Restaurant.Controllers
         //}
         public async Task<IActionResult> Index()
         {
-             var restaurantContext = _context.OrderDetails.Include(o => o.Orders);
+             var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c=> c.Orders.Status == "Обрабатывается");
             
             return View(await restaurantContext.ToListAsync());
         }
@@ -93,15 +93,17 @@ namespace Restaurant.Controllers
                 return NotFound();
             }
 
-            var orderDetail = await _context.OrderDetails
-                .Include(o => o.Orders)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (orderDetail == null)
+            //var orderDetail = await _context.Orders
+            //   .Include(o => o.OrderDetails)
+            //   .FirstOrDefaultAsync(m => m.Id == id);
+            var orders = await _context.Orders.FindAsync(id);
+            _context.Orders.Remove(orders);
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            return View(orderDetail);
+            return View(orders);
         }
 
         // POST: Orders/Delete/5
@@ -109,10 +111,51 @@ namespace Restaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var orderDetail = await _context.OrderDetails.FindAsync(id);
-            _context.OrderDetails.Remove(orderDetail);
+            var orders = await _context.Orders.FindAsync(id);
+            _context.Orders.Remove(orders);
+            //var orderDetail = await _context.OrderDetails.FindAsync(id);
+            //_context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost, ActionName("Ready")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OrderReady(Guid id)
+        {
+            var orders = await _context.Orders.FindAsync(id);
+
+            orders.Status = "Готово";
+           // _context.Orders.Remove(orders);
+            //var orderDetail = await _context.OrderDetails.FindAsync(id);
+            //_context.OrderDetails.Remove(orderDetail);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        //public async Task<RedirectToActionResult> AddToCart(Guid? id)
+
+        //{
+        //    var items = _shopCart.getShopItems(id);
+        //    var menu = _context.RestMenus.FirstOrDefault(i => i.Id == id);
+
+        //    ShopCartItem item = new ShopCartItem();
+        //    if (items.Count > 0)
+        //    {
+        //        item = items.Find(x => x.RestMenu.Id == id);
+        //    }
+        //    if (item != null && item.RestMenu?.Id == id)
+        //    {
+
+        //        await _shopCart.UpAddToCart(item);
+        //    }
+        //    else
+        //    {
+        //        await _shopCart.AddToCart(menu);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Restaurant.Models.Restaurant.OrderDetail
+﻿@model Restaurant.Models.Restaurant.Order
 
 
 
@@ -15,7 +15,7 @@
 <div>
     <h4>OrderDetail</h4>
     <hr />
-    <dl class="row">
+    @*<dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MenuId)
         </dt>
@@ -34,7 +34,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Orders.Email)
         </dd class>
-    </dl>
+    </dl>*@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />

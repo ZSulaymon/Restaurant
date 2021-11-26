@@ -32,6 +32,7 @@ namespace Restaurant.Models.Restaurant
                     MenuId = el.RestMenu.Id,
                     OrderId = order.Id,
                     Price = el.RestMenu.Price,
+                    
                 };
                 _context.OrderDetails.Add(orderDetail);
             }

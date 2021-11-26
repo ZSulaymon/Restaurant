@@ -30,6 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Orders.Email)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders.TypeOrder)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -56,8 +59,16 @@
                 @Html.DisplayFor(modelItem => item.Orders.Email)
             </td>
             <td>
-                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.Orders.TypeOrder)
+            </td>
+            <td>
+
+                <form asp-action="Ready" asp-route-id="@item.OrderId">
+                    @*<input type="hidden" asp-for="@item.OrderId" />*@
+                    <input type="submit" value="Готово" class="btn btn-success" />
+                    @* | *@
+                    @*<a asp-action="Index">Back to List</a>*@
+                </form>
             </td>
         </tr>
 }
