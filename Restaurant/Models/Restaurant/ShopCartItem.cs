@@ -16,6 +16,8 @@ namespace Restaurant.Models.Restaurant
         public decimal Price { get; set; }
         public int  Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+        public decimal SubTotal { get; set; }
+        [Column(TypeName ="decimal(18,2)")]
         public decimal Total { get; set; }
         public string ShopCartId { get; set; }
     }

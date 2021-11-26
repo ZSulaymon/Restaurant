@@ -50,7 +50,7 @@ namespace Restaurant.Models.Restaurant
                 RestMenu = RestMenu,
                 Price = RestMenu.Price,
                 Quantity = 1,
-                Total = RestMenu.Price,
+                SubTotal = RestMenu.Price,
                 MenuId = RestMenu.Id                               
             }) ;
             _context.SaveChanges();
@@ -61,7 +61,7 @@ namespace Restaurant.Models.Restaurant
             if (item != null)
             {
                 item.Quantity++;
-                item.Total = item.Quantity * item.Price;
+                item.SubTotal = item.Quantity * item.Price;
             }
              _context.SaveChanges();
          }

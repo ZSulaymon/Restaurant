@@ -52,23 +52,34 @@
                             @Html.DisplayFor(modelItem => item.Quantity)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Total)
+                            @Html.DisplayFor(modelItem => item.SubTotal)
                         </td>
                         <td>
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
-                  
+
 
                 }
 
+                <tr class="table-success">
+                    @*<td></td>*@
+                    <td></td>
+                    <td> </td>
+                    <td>Total:</td>
+                    <td>@Model.shopCart.listShopItems.Sum(x => x.SubTotal)</td>
+                    <td>
+                        <a class="btn btn-success float-lg-right" asp-controller="Order" asp-action="Checkout">Заказать</a>
+                    </td>
+
+                </tr>
+ 
             </tbody>
 
         </table>
         <div>
 
-            <a class="btn btn-success float-lg-right" asp-controller="Order" asp-action="Checkout">Заказать</a>
-
+ 
         </div>
     </div>
 
