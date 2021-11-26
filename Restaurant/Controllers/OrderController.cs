@@ -29,6 +29,7 @@ namespace Restaurant.Controllers
         [HttpGet]
         public IActionResult Checkout()
         {
+           
             return View();
         }
         [HttpGet]
@@ -39,6 +40,7 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
              var restaurantContext = _context.OrderDetails.Include(o => o.Orders);
+            
             return View(await restaurantContext.ToListAsync());
         }
 
@@ -67,12 +69,12 @@ namespace Restaurant.Controllers
             if (_shopCart.listShopItems.Count == 0)
             {
                 ModelState.AddModelError("","У Вас должны быть товары!");
+                 ViewBag.Message = "Корзина пуста, У Вас должны быть товары!";
+ 
             }
             if (ModelState.IsValid)
             {
                 _allOrders.createOrder(order);
-                // ViewBag.Message = "Заказ успешно обработан";
-                //return RedirectToAction("Index", "Home","Complete");
                 return RedirectToAction("Complete");
              }
 

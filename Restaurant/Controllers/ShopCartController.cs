@@ -37,17 +37,15 @@ namespace Restaurant.Controllers
         {
             var items = _shopCart.getShopItems();
              _shopCart.listShopItems = items;
-            //_shopCart.listShopItems.
-
-
+            _shopCart.listShopItems = _shopCart.getShopItems();
+            if (_shopCart.listShopItems.Count == 0)
+            {
+                ViewBag.Message = "Корзина пуста, Перейдите на стариницу покупок!";
+            }
             var obj = new ShopCartmodels
             {
                 shopCart = _shopCart
-            };
-           // var count = items.Count;
-
-           // ViewBag.Count = items.Count;
-                
+            };                
             return View(obj);
         }
 

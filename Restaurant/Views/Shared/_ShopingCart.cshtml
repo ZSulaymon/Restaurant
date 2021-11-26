@@ -1,5 +1,16 @@
-﻿<ul class="nav navbar-nav navbar-right">
-    <li>
-        <a class="nav-link text-dark" asp-area="" asp-controller="ShopCart" asp-action="Index">Cart</a>
-    </li>
-</ul>
+﻿@if (ViewBag.Message == null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a class="nav-link text-dark" asp-area="" asp-controller="ShopCart" asp-action="Index">Cart</a>
+        </li>
+    </ul>
+}
+@if (ViewBag.Message != null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a class="nav-link text-dark" asp-area="" asp-controller="ShopCart" asp-action="Index">Car</a>
+        </li>
+    </ul>
+}

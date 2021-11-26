@@ -22,6 +22,7 @@ namespace Restaurant.Models.Restaurant
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage ="Email не указан верно")]
         public string Email { get; set; }
+        public string TypeOrder { get; set; }
         [BindNever]
         [ScaffoldColumn(false)]                         //не показывать данное поле нигде.
         public DateTime OrderTime { get; set; }

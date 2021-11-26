@@ -20,17 +20,21 @@ namespace Restaurant.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly RestInfoService _restInfoService;
         private readonly RestMenusService _restMenusService;
+        private readonly ShopCart _shopCart;
         private List<ShopCartItem> listOfshopingCartModels;
 
 
         public HomeController(ILogger<HomeController> logger,
             RestInfoService restInfoService,
             RestMenusService restMenusService,
-            RestaurantContext context)
+            RestaurantContext context,
+            ShopCart shopCart)
         {
             _context = context;
             _logger = logger;
             _restInfoService = restInfoService;
+            _shopCart = shopCart;
+
             _restMenusService = restMenusService;
             listOfshopingCartModels = new List<ShopCartItem>();
         }
@@ -38,6 +42,13 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             var allRest = await _restInfoService.GetAll();
+             _shopCart.listShopItems = _shopCart.getShopItems();
+            if (_shopCart.listShopItems.Count == 0)
+            {
+                  ViewBag.Message = "";
+                var count = _shopCart.listShopItems.Count;
+                ViewBag.Count = count;
+            }
             return View(allRest);
         }
 
@@ -49,6 +60,13 @@ namespace Restaurant.Controllers
                 return NotFound();
             }
             var restMenuById = await _restMenusService.GetMenuById(id);
+            _shopCart.listShopItems = _shopCart.getShopItems();
+            if (_shopCart.listShopItems.Count == 0)
+            {
+                ViewBag.Message = "";
+                var count = _shopCart.listShopItems.Count;
+                ViewBag.Count = count;
+            }
             return View(restMenuById);
 
         }
