@@ -25,6 +25,15 @@ namespace Restaurant.Models.Restaurant
 
             var items = _shopCart.listShopItems;
 
+            //foreach (var item in items)
+            //{
+            //    var shopSt = new ShopCartItem()
+            //    {
+            //        ShopStatus = "Заказано",
+            //    };
+            //    _context.ShopCartItems.Add(shopSt);
+            //}                  
+
             foreach (var el in items)
             {
                 var orderDetail = new OrderDetail()
@@ -32,7 +41,7 @@ namespace Restaurant.Models.Restaurant
                     MenuId = el.RestMenu.Id,
                     OrderId = order.Id,
                     Price = el.RestMenu.Price,
-                    
+                     
                 };
                 _context.OrderDetails.Add(orderDetail);
             }

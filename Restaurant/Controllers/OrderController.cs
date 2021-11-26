@@ -135,27 +135,6 @@ namespace Restaurant.Controllers
         }
 
 
-        //public async Task<RedirectToActionResult> AddToCart(Guid? id)
-
-        //{
-        //    var items = _shopCart.getShopItems(id);
-        //    var menu = _context.RestMenus.FirstOrDefault(i => i.Id == id);
-
-        //    ShopCartItem item = new ShopCartItem();
-        //    if (items.Count > 0)
-        //    {
-        //        item = items.Find(x => x.RestMenu.Id == id);
-        //    }
-        //    if (item != null && item.RestMenu?.Id == id)
-        //    {
-
-        //        await _shopCart.UpAddToCart(item);
-        //    }
-        //    else
-        //    {
-        //        await _shopCart.AddToCart(menu);
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+         
     }
 }

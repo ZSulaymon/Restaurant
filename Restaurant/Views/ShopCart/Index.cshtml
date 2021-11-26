@@ -19,6 +19,9 @@
                     <th>
                         Общая Сумма
                     </th>
+                    <th>
+                        Статус
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,6 +42,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.SubTotal)
                         </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.ShopStatus)
+                        </td>*@
+                        
                         <td>
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
@@ -53,7 +60,7 @@
                 <td> </td>
                 <td>Total:</td>
                 <td>@Model.shopCart.listShopItems.Sum(x => x.SubTotal)</td>
-               
+                <td></td>
                 @if (@ViewBag.Message == null)
                 {
                     <td>
@@ -62,12 +69,12 @@
                 }
                 else
                 {
-                     <div class="text-danger">
-                      @ViewBag.Message
-                </div>
-                    }
+                    <div class="text-danger">
+                        @ViewBag.Message
+                    </div>
+                }
 
-</tr>
+            </tr>
 
             </tbody>
 

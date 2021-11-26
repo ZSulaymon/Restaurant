@@ -51,7 +51,8 @@ namespace Restaurant.Models.Restaurant
                 Price = RestMenu.Price,
                 Quantity = 1,
                 SubTotal = RestMenu.Price,
-                MenuId = RestMenu.Id                               
+                MenuId = RestMenu.Id,
+                ShopStatus = "Не заказано"
             }) ;
             _context.SaveChanges();
         }

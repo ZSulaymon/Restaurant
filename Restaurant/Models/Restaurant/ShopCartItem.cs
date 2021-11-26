@@ -14,6 +14,7 @@ namespace Restaurant.Models.Restaurant
         public virtual RestMenu RestMenu { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        public string ShopStatus { get; set; }
         public int  Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal SubTotal { get; set; }
