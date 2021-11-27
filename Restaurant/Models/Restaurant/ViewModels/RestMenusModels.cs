@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Restaurant.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,8 +29,11 @@ namespace Restaurant.Models.Restaurant.ViewModels
         public IFormFile ImageFile { get; set; }
         [Required]
         public Guid RestId { get; set; }
+ 
         public string RestName { get; set; }
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-     }
+        public string UserId { get; set; }
+        //public virtual User User { get; set; }
+    }
 }

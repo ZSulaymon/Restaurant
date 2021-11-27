@@ -12,6 +12,8 @@ using Restaurant.Context;
 using Restaurant.Models.Restaurant;
 using Restaurant.Models.Restaurant.ViewModels;
 using Restaurant.Services.RestMenus;
+using Restaurant.Controllers;
+using System.Security.Claims;
 
 namespace Restaurant.Controllers
 {
@@ -31,12 +33,17 @@ namespace Restaurant.Controllers
            _restMenusService = restMenusService;
 
         }
-
-
         // GET: RestMenus1
+        public string GetCurrentUsertId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //return userId;
+        }
         public async Task<IActionResult> Index()
         {
-            var restMenu = await _restMenusService.GetAll();
+            //var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var restMenu = await _restMenusService.GetAll(GetCurrentUsertId());
             return View(restMenu);
         }
 
@@ -76,11 +83,14 @@ namespace Restaurant.Controllers
                 Value = p.Id.ToString(),
                 Text = p.Name
             }).ToListAsync();
-            var RestNames = await _context.RestInfo.Select(p => new SelectListItem
+            var RestNames = await _context.RestInfo.Where(r=>r.UserId == GetCurrentUsertId()).Select(p => new SelectListItem
             {
                 Value = p.Id.ToString(),
+                //Group = p.UserId.ToString(),
                 Text = p.RestName
             }).ToListAsync();
+            //}).Where(r=> r.Value.Contains("19a29903-e756-46df-0a2e-08d9b16d62bb")).ToListAsync();
+
             restMenusM.Categories = categories;
             restMenusM.RestNames = RestNames;
             return View(restMenusM);
@@ -120,6 +130,7 @@ namespace Restaurant.Controllers
                 CoocingTime = model.CoocingTime,
                 Price = model.Price,
                 RestId = model.RestId,
+                UserId = GetCurrentUsertId(),
                 Description = model.Description,
                 UpdateDate = null
             };
@@ -153,12 +164,13 @@ namespace Restaurant.Controllers
                 CoocingTime = rest.CoocingTime,
                 ImageName = rest.ImageName,
                 Description = rest.Description,
-                
+                UserId = rest.UserId,
+                 
                 //CategoryName  = rest.FoodCategory.Name,
-                Categories = await _context.FoodCategories.
-                     Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
-                RestNames = await _context.RestInfo.
-                     Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.RestName }).ToListAsync()
+                Categories = await _context.FoodCategories
+                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
+                RestNames = await _context.RestInfo.Where(r=>r.UserId == GetCurrentUsertId())
+                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.RestName }).ToListAsync()
             };
             return View(result);
         }

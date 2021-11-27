@@ -47,10 +47,10 @@
                     <span asp-validation-for="CoocingTime" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                    <label asp-for="ImageName" class="control-label"></label>
-                    <input asp-for="ImageName" class="form-control" />
-                    <span asp-validation-for="ImageName" class="text-danger"></span>
-                </div>*@
+            <label asp-for="ImageName" class="control-label"></label>
+            <input asp-for="ImageName" class="form-control" />
+            <span asp-validation-for="ImageName" class="text-danger"></span>
+        </div>*@
                 @*<div class="form-group">
             <label asp-for="UpdateDate" class="control-label"></label>
             <input asp-for="UpdateDate" class="form-control" />
@@ -73,6 +73,8 @@
                     <label asp-for="ImageFile"></label>
                     <input asp-for="ImageFile" type="file" accept="image/*" class="form-control-file">
                 </div>
+                @*<input asp-for="UserId" type="hidden" class="form-control" />*@
+
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>

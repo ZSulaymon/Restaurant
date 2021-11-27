@@ -28,10 +28,15 @@ namespace Restaurant.Controllers
             _webHostEnvironment = webHostEnvironment;
             _restInfoService = restInfoService;
         }
-        // GET: Restaurant
+        public  string GetCurrentUsertId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //return userId;
+        }
+         // GET: Restaurant
         public async Task<IActionResult> Index()
         {
-            var rest = await _restInfoService.GetAll();
+             var rest = await _restInfoService.GetAll(GetCurrentUsertId());
             return View(rest);
         }
 
@@ -65,7 +70,7 @@ namespace Restaurant.Controllers
             {
                 finalFileName = await CopyFile(model.ImageFile);
             }
-            var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
            // var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var restInfo = new RestInfo
             {
@@ -74,7 +79,7 @@ namespace Restaurant.Controllers
                 RestPhone  = model.RestPhone,
                 ImageName = finalFileName,
                 InsertDateTime = DateTime.Now,
-                UserId = currenUserId,
+                UserId = GetCurrentUsertId(),
                 RestAddress = model.RestAddress,
                 Tables = model.Tables,
                 RestReferencePoint = model.RestReferencePoint,
@@ -161,39 +166,7 @@ namespace Restaurant.Controllers
             return View(restMenu);
         }
 
-        // POST: Restaurant/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,RestName,RestAddress,RestReferencePoint,RestPhone,RestAdministrator")] RestInfo restInfo)
-        //{
-        //    if (id != restInfo.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(restInfo);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!RestInfoExists(restInfo.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(restInfo);
-        //}
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(RestInfo model)

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.Context;
 
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20211127052021_addUserIdToREstMenu")]
+    partial class addUserIdToREstMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,6 +375,9 @@ namespace Restaurant.Migrations
                     b.Property<Guid>("RestId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("RestInfoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -383,7 +388,7 @@ namespace Restaurant.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("RestId");
+                    b.HasIndex("RestInfoId");
 
                     b.HasIndex("UserId");
 
@@ -513,9 +518,7 @@ namespace Restaurant.Migrations
 
                     b.HasOne("Restaurant.Models.Restaurant.RestInfo", "RestInfo")
                         .WithMany()
-                        .HasForeignKey("RestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RestInfoId");
 
                     b.HasOne("Restaurant.Models.Account.User", "User")
                         .WithMany()

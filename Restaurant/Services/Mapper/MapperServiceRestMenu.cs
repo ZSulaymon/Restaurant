@@ -25,6 +25,7 @@ namespace Restaurant.Services.Mapper
                 .ForMember(r => r.ImageName, option => option.MapFrom(r => r.ImageName))
                 .ForMember(r => r.Description, option => option.MapFrom(r => r.Description))
                 .ForMember(r => r.RestId, option => option.MapFrom(r => r.RestId))
+                .ForMember(r => r.UserId, option => option.MapFrom(r => r.UserId))
                 .ForMember(r => r.RestName, option => option.MapFrom(r => r.RestInfo.RestName))
                 .ForMember(r => r.CategoryId, option => option.MapFrom(r => r.FoodCategory.Id))
                 .ForMember(r => r.CategoryName, option => option.MapFrom(r => r.FoodCategory.Name))
@@ -39,6 +40,7 @@ namespace Restaurant.Services.Mapper
                 .ForMember(r => r.UpdateDate, option => option.MapFrom(r => r.UpdateDate))
                 .ForMember(r => r.ImageName, option => option.MapFrom(r => r.ImageName))
                 .ForMember(r => r.RestId, option => option.MapFrom(r => r.RestId))
+                .ForMember(r => r.UserId, option => option.MapFrom(r => r.UserId))
                 .ForMember(r => r.Description, option => option.MapFrom(r => r.Description));
                 //.ForMember(r => r.RestInfo.RestName, option => option.MapFrom(r => r.RestName))
                 //.ForMember(r => r.FoodCategory.Id, option => option.MapFrom(r => r.CategoryId))

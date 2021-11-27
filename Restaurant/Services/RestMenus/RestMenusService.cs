@@ -22,7 +22,7 @@ namespace Restaurant.Services.RestMenus
             _mapper = mapper;
         }
 
-        public async Task<List<RestMenusModels>> GetAll()
+        public async Task<List<RestMenusModels>> GetAll(string id)
         {
             var menus = await _context.RestMenus.Select(m => new RestMenusModels
             {
@@ -37,7 +37,8 @@ namespace Restaurant.Services.RestMenus
                 CategoryName = m.FoodCategory.Name,
                 RestName = m.RestInfo.RestName,
                 Id = m.Id,
-            }).ToListAsync();
+                UserId = m.UserId,
+            }).Where(m=>m.UserId == id).ToListAsync();
             return menus;
         }
         public async Task<RestMenusModels> GetById(Guid? id)
@@ -79,6 +80,7 @@ namespace Restaurant.Services.RestMenus
                                    RestId = m.RestId,
                                    CategoryName = m.FoodCategory.Name,
                                    RestName = m.RestInfo.RestName,
+                                   UserId = m.UserId,
                                    Id = m.Id,
                                }).ToListAsync();
             return menus;
@@ -91,6 +93,7 @@ namespace Restaurant.Services.RestMenus
             rest.ImageName  = string.IsNullOrEmpty(fileName) ? rest.ImageName : fileName;
 
             rest.UpdateDate = DateTime.Now;
+           // rest.UserId = model.UserId;
 
             _context.RestMenus.Update(rest);
 
