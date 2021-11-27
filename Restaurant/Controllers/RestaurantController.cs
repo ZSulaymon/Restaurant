@@ -34,6 +34,7 @@ namespace Restaurant.Controllers
             //return userId;
         }
          // GET: Restaurant
+         [Authorize]
         public async Task<IActionResult> Index()
         {
              var rest = await _restInfoService.GetAll(GetCurrentUsertId());

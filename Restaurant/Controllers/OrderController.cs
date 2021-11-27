@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Restaurant.Context;
 using Restaurant.Models.Interfaces;
@@ -37,6 +38,7 @@ namespace Restaurant.Controllers
         //{
         //    return View();
         //}
+        [Authorize]
         public async Task<IActionResult> Index()
         {
              var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c=> c.Orders.Status == "Обрабатывается");

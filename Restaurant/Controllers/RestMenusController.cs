@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,8 +11,8 @@ using Restaurant.Context;
 using Restaurant.Models.Restaurant;
 using Restaurant.Models.Restaurant.ViewModels;
 using Restaurant.Services.RestMenus;
-using Restaurant.Controllers;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Restaurant.Controllers
 {
@@ -39,6 +38,7 @@ namespace Restaurant.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
             //return userId;
         }
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             //var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
