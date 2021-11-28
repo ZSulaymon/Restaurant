@@ -61,7 +61,7 @@
                 <td>Total:</td>
                 <td>@Model.shopCart.listShopItems.Sum(x => x.SubTotal)</td>
                 <td></td>
-                @if (@ViewBag.Message == null)
+                @if (@ViewBag.Count > 0)
                 {
                     <td>
                         <a class="btn btn-success float-lg-right" asp-controller="Order" asp-action="Checkout">Заказать</a>

@@ -20,24 +20,38 @@ namespace Restaurant.Controllers
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly RestInfoService _restInfoService;
+        private readonly ShopCart _shopCart;
+        private readonly HomeController _homeController;
 
         public RestaurantController(RestaurantContext context,
-            IWebHostEnvironment webHostEnvironment, RestInfoService restInfoService)
+            IWebHostEnvironment webHostEnvironment, 
+            RestInfoService restInfoService,
+             ShopCart shopCart,
+             HomeController homeController)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _restInfoService = restInfoService;
+            _shopCart = shopCart;
+            _homeController = homeController;
         }
         public  string GetCurrentUsertId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
             //return userId;
         }
-         // GET: Restaurant
-         [Authorize]
+        public void CallGetCountItems()
+        {
+            var count = _homeController.GetCountItems();
+            ViewBag.Count = count;
+        }
+    
+        // GET: Restaurant
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-             var rest = await _restInfoService.GetAll(GetCurrentUsertId());
+            CallGetCountItems();
+            var rest = await _restInfoService.GetAll(GetCurrentUsertId());
             return View(rest);
         }
 
@@ -48,7 +62,8 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
- 
+            CallGetCountItems();
+
             var restDet = await _restInfoService.GetById(id);
   
             return View(restDet);
@@ -56,6 +71,7 @@ namespace Restaurant.Controllers
         // GET: Restaurant/Create
         public IActionResult Create()
         {
+            CallGetCountItems();
             return View();
         } 
         [HttpPost]
@@ -159,6 +175,8 @@ namespace Restaurant.Controllers
             {
                 return View(id);
             }
+            CallGetCountItems();
+
             var restMenu = await _context.RestInfo.FindAsync(id);
             if (restMenu == null)
             {
@@ -196,6 +214,8 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
+            CallGetCountItems();
+
             var restInfo = await _context.RestInfo
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (restInfo == null)

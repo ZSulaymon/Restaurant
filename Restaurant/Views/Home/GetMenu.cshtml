@@ -1,49 +1,14 @@
-﻿@*@model IEnumerable<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>*@
-@model List<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>
+﻿ @model List<Restaurant.Models.Restaurant.ViewModels.RestMenusModels>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@*<style>
-    .col-md {
-        margin-bottom: 25px !important;
-    }
-</style>*@
-
-@*<script type="text/javascript">
-    function AddToCart(rest) {
-        var itemId = $(rest).attr("itemid");
-        //alert(itemId);
-        var formData = new FormData();
-        formData.append("itemId", itemId);
-
-        $.ajax({
-            async: true,
-            type: 'POST',
-            content: false,
-            processData: false,
-            data: formData,
-            url: 'Home/GetMenuId',
-            success: function (data) {
-
-            },
-            Error: function () {
-                alert("There is some problem.")    
-            }
-
-        });
-    }
-</script>*@
-
+ 
 <div class="row">
     @foreach (var rest in Model)
     {
-        //var routeDate = new Dictionary<string, string>()
-        //{
-        //    { "id", rest.Id.ToString() },
-        //    //{ "categoryId", rest.Id.ToString() }
-        //};
+ 
 
 <div class="col-md">
     <div class="card" style="width: 18rem; padding:10px">
@@ -54,17 +19,11 @@
             <pre class="card-subtitle"><b>Время приготовления:</b> @rest.CoocingTime</pre>
             <pre class="card-subtitle"><b>Состав:</b> @rest.Composition</pre>
             <pre class="card-subtitle"><b>Описание:</b> @rest.Description</pre>
-            @*<a asp-action="GetMenu" asp-controller="Home" asp-all-route-data="routeDate" class="btn btn-primary">Выбрать</a>*@
-            @*<a asp-all-route-data="routeDate"  class="btn btn-success">В корзину</a>*@
+           
             <a asp-action="Details" asp-controller="RestMenus" asp-route-id="@rest.Id" class="btn btn-warning"> <span class="glyphicon glyphicon-shopping-cart"></span>Подробно</a>
-            @*<input type="button" name="AddToCart" value="Add to Cart" class="btn btn-success" itemid="@rest.Id id="btnAddToCart" onclick="AddToCart(this)">*@
-            @*<input type="button" asp-controller="ShopCart" value="Add to Cart" asp-action="AddToCart" class="btn btn-success" asp-route-id="@rest.Id" onclick="AddToCart(this)" />*@
-
-            @*<p> <a class="btn btn-warning" asp-controller="ShopCart" asp-action="AddToCart" asp-all-route-data="routeDate">Добавить в корзину </a></p>*@
+          
             <a class="btn btn-success" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@rest.Id">В корзину </a>
-            @*<a asp-action="GetMenu" asp-route-id="@rest.Id">Delete</a>*@
-
-            @*<a href="~/Movie/Details/?id=@movie.Id.ToString()&category=@movie.CategoryId" class="btn btn-dark">Download</a>*@
+      
         </div>
     </div>
 </div>

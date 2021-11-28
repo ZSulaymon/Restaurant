@@ -10,17 +10,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-
+ 
 namespace Restaurant.Controllers
 {
-    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
+    public class HomeController : Controller
     {
         private readonly RestaurantContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly RestInfoService _restInfoService;
-        private readonly RestMenusService _restMenusService;
+         private readonly RestMenusService _restMenusService;
         private readonly ShopCart _shopCart;
+        //private readonly ControllerContext _controllerContext;
+        //private readonly HomeController _homeController;
+
         private List<ShopCartItem> listOfshopingCartModels;
 
 
@@ -28,27 +30,53 @@ namespace Restaurant.Controllers
             RestInfoService restInfoService,
             RestMenusService restMenusService,
             RestaurantContext context,
-            ShopCart shopCart)
+            ShopCart shopCart
+            //HomeController homeController,
+            //ControllerContext controllerContext
+            
+            )
         {
             _context = context;
             _logger = logger;
             _restInfoService = restInfoService;
             _shopCart = shopCart;
+            //_homeController = homeController;
+            //_controllerContext = controllerContext;
 
             _restMenusService = restMenusService;
             listOfshopingCartModels = new List<ShopCartItem>();
         }
+ 
+        public int  GetCountItems()
+        {
+            _shopCart.listShopItems = _shopCart.getShopItems();
+            if (_shopCart.listShopItems.Count == 0)
+            {
+                ViewBag.Message = "";
+                var count = _shopCart.listShopItems.Count;
+                ViewBag.Count = count;
+
+            }
+            else
+            {
+                var count = _shopCart.listShopItems.Count;
+                ViewBag.Count = count;
+
+            }
+            return _shopCart.listShopItems.Count;
+        }
 
         public async Task<IActionResult> Index()
         {
+            GetCountItems();
             var allRest = await _restInfoService.GetAll();
-             _shopCart.listShopItems = _shopCart.getShopItems();
-            if (_shopCart.listShopItems.Count == 0)
-            {
-                  ViewBag.Message = "";
-                var count = _shopCart.listShopItems.Count;
-                ViewBag.Count = count;
-            }
+            // _shopCart.listShopItems = _shopCart.getShopItems();
+            //if (_shopCart.listShopItems.Count == 0)
+            //{
+            //      ViewBag.Message = "";
+            //    var count = _shopCart.listShopItems.Count;
+            //    ViewBag.Count = count;
+            //}
             return View(allRest);
         }
 
@@ -60,13 +88,15 @@ namespace Restaurant.Controllers
                 return NotFound();
             }
             var restMenuById = await _restMenusService.GetMenuById(id);
-            _shopCart.listShopItems = _shopCart.getShopItems();
-            if (_shopCart.listShopItems.Count == 0)
-            {
-                ViewBag.Message = "";
-                var count = _shopCart.listShopItems.Count;
-                ViewBag.Count = count;
-            }
+            //_shopCart.listShopItems = _shopCart.getShopItems();
+            //if (_shopCart.listShopItems.Count == 0)
+            //{
+            //    ViewBag.Message = "";
+            //    var count = _shopCart.listShopItems.Count;
+            //    ViewBag.Count = count;
+            //}
+            GetCountItems();
+
             return View(restMenuById);
 
         }
@@ -76,58 +106,7 @@ namespace Restaurant.Controllers
             throw new NotImplementedException();
         }
 
-        //public async Task<IActionResult> Create(RestInfo model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    string finalFileName = null;
-        //    if (model.ImageFile != null)
-        //    {
-        //        finalFileName = await CopyFile(model.ImageFile);
-        //    }
-        //    var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    // var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    var restInfo = new RestInfo
-        //    {
-        //        RestName = model.RestName,
-        //        RestAdministrator = model.RestAdministrator,
-        //        RestPhone = model.RestPhone,
-        //        ImageName = finalFileName,
-        //        InsertDateTime = DateTime.Now,
-        //        UserId = currenUserId,
-        //        RestAddress = model.RestAddress,
-        //        RestReferencePoint = model.RestReferencePoint,
-        //        Description = model.Description,
-        //        UpdateDate = null
-
-        //    };
-        //    _context.Add(restInfo);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-        //public async Task<Microsoft.AspNetCore.Mvc.JsonResult>  GetMenuId(Guid ItemId)
-        //{
-        //    //if (ItemId == null)
-        //    //{
-        //    //    return View(GetMenu);
-        //    //}
-        //    if (ItemId == null)
-        //    {
-        //        return (Microsoft.AspNetCore.Mvc.JsonResult)NotFound();
-        //    }
-        //    var restMenuById = await _restMenusService.GetMenuById(ItemId);
-        //    //return View(restMenuById);
-
-        //    return Json("", JsonRequestBehavior.AllowGet);
-        //}
-
-        //public IActionResult Complete()
-        //{
-        //    ViewBag.Message = "Заказ успешно обработан";
-        //    return View();
-        //}
+       
 
         public IActionResult Privacy()
         {

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Restaurant</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*@{
+           Layout = Layout = "~/Views/Shared/_Layout.cshtml";
+        }*@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -21,34 +24,44 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
-                      @if (User.Identity.IsAuthenticated)
-                      {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Restaurant" asp-action="Index">Ресторан</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RestMenus" asp-action="Index">Меню</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Заказы</a>
-                        </li>
-                      }
-                        @*<li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-            </li>*@
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                    @if (ViewBag.Message == null)
-                    {
-                        @Html.Partial("_ShopingCart")
-                    }
-                    else
-                    {
-                        @Html.Partial("_ShopingCart")
-                    }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Restaurant" asp-action="Index">Ресторан</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RestMenus" asp-action="Index">Меню</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Заказы</a>
+                            </li>
+                        }
+                       
+                                 @*<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Три</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="#">Три один</a>
+                                        <a class="dropdown-item" href="#">Три два</a>
+                                        <a class="dropdown-item" href="#">Три три</a>
+                                    </div>
+                                </li>*@                                                                   
+                                  @*<li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                </li>*@
+                            </ul>
+                            @Html.Partial("_LoginPartial")
+                           
+                    @if (ViewBag.Count > 0)
+                            {
+                                @Html.Partial("_ShopingCart")
+                            }
+                            else
+                            {
+                                @*@Html.Partial("_ShopingCart")*@
+                            }
 
-                </div>
-            </div>
+                        </div>
+</div>
         </nav>
     </header>
     <div class="container">

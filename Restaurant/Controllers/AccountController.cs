@@ -9,15 +9,25 @@ namespace Restaurant.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly HomeController _homeController;
 
-        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
+        public AccountController(SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            HomeController homeController)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _homeController = homeController;
+        }
+        public void CallGetCountItems()
+        {
+            var count = _homeController.GetCountItems();
+            ViewBag.Count = count;
         }
         [HttpGet]
         public IActionResult Login()
         {
+            CallGetCountItems();
             return View();
         }
         [HttpPost]
@@ -37,6 +47,7 @@ namespace Restaurant.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            CallGetCountItems();
             return View();
         }
         [HttpPost]

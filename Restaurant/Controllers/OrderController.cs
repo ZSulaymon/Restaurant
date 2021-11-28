@@ -11,27 +11,35 @@ using System.Threading.Tasks;
 
 namespace Restaurant.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : Controller 
     {
         private readonly IAllOrders  _allOrders;
         private readonly ShopCart _shopCart;
         private readonly RestaurantContext _context;
+        private readonly HomeController _homeController;
 
         public OrderController(IAllOrders allOrders,
             ShopCart shopCart,
-            RestaurantContext Context
+            RestaurantContext Context,
+            HomeController homeController
             )
         {
             this._allOrders = allOrders;
             this._shopCart = shopCart;
             this._context = Context;
+            _homeController = homeController;
         }
 
+        public void  CallGetCountItems()
+        {
+             var count = _homeController.GetCountItems();
+            //ViewBag.Count = _homeController.ViewBag.count;
+               ViewBag.Count = count;
+        }
         [HttpGet]
         public IActionResult Checkout()
         {
-           
-            return View();
+             return View();
         }
         [HttpGet]
         //public IActionResult Index()
@@ -42,7 +50,8 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
              var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c=> c.Orders.Status == "Обрабатывается");
-            
+            CallGetCountItems();
+
             return View(await restaurantContext.ToListAsync());
         }
 

@@ -18,6 +18,7 @@ namespace Restaurant.Controllers
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly RestMenusService _restMenusService;
+        private readonly HomeController _homeController;
 
         private readonly ShopCart _shopCart;
 
@@ -25,23 +26,34 @@ namespace Restaurant.Controllers
         public ShopCartController(RestaurantContext context,
             IWebHostEnvironment webHostEnvironment,
             RestMenusService restMenusService,
-            ShopCart shopCart)
+            ShopCart shopCart,
+            HomeController homeController)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _restMenusService = restMenusService;
             _shopCart = shopCart;
-
+            _homeController = homeController;
+        }
+        public void CallGetCountItems()
+        {
+            var count = _homeController.GetCountItems();
+            ViewBag.Count = count;
+            if (count == 0)
+            {
+                ViewBag.Message = "Корзина пуста, Перейдите на стариницу покупок!";
+            }
         }
         public ViewResult Index()
         {
             var items = _shopCart.getShopItems();
              _shopCart.listShopItems = items;
-            _shopCart.listShopItems = _shopCart.getShopItems();
-            if (_shopCart.listShopItems.Count == 0)
-            {
-                ViewBag.Message = "Корзина пуста, Перейдите на стариницу покупок!";
-            }
+            //_shopCart.listShopItems = _shopCart.getShopItems();
+            //if (_shopCart.listShopItems.Count == 0)
+            //{
+            //    ViewBag.Message = "Корзина пуста, Перейдите на стариницу покупок!";
+            //}
+            CallGetCountItems();
             var obj = new ShopCartmodels
             {
                 shopCart = _shopCart
@@ -55,7 +67,7 @@ namespace Restaurant.Controllers
             return View();
         }
         //public IActionResult AddToCart(Guid id)
-        public async Task<RedirectToActionResult> AddToCart(Guid? id)
+        public async Task<IActionResult> AddToCart(Guid? id)
 
         {       
             var items =  _shopCart.getShopItems(id);
@@ -75,7 +87,8 @@ namespace Restaurant.Controllers
             {
                 await _shopCart.AddToCart(menu);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
+            //return RedirectToAction($"GetMenu/{id}", "Home");
          }
         public async Task<IActionResult> Delete(Guid? id)
         {

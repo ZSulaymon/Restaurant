@@ -21,15 +21,22 @@ namespace Restaurant.Controllers
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly RestMenusService _restMenusService;
+         private readonly ShopCart _shopCart;
+        private readonly HomeController _homeController;
+                                   
 
 
         public RestMenusController(RestaurantContext context,
             IWebHostEnvironment webHostEnvironment, 
-            RestMenusService restMenusService)
+            RestMenusService restMenusService,
+            ShopCart shopCart,
+            HomeController homeController)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
            _restMenusService = restMenusService;
+            _shopCart = shopCart;
+            _homeController = homeController;
 
         }
         // GET: RestMenus1
@@ -38,11 +45,16 @@ namespace Restaurant.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
             //return userId;
         }
+        public void CallGetCountItems()
+        {
+            var count = _homeController.GetCountItems();
+             ViewBag.Count = count;
+        }
         [Authorize]
         public async Task<IActionResult> Index()
         {
             //var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            CallGetCountItems();
             var restMenu = await _restMenusService.GetAll(GetCurrentUsertId());
             return View(restMenu);
         }
@@ -54,12 +66,14 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
+            CallGetCountItems();
             var restMenu = await _restMenusService.GetById(id);
             return View(restMenu);
         }
         [NonAction]
         private async Task<string> CopyFile(IFormFile imageFile)
         {
+
             if (imageFile == null) return null;
             var rootPath = _webHostEnvironment.WebRootPath;
             var filename = Path.GetFileNameWithoutExtension(imageFile.FileName); //02animalpicture
@@ -77,6 +91,7 @@ namespace Restaurant.Controllers
         {
             // ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id");
             // ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id");
+            CallGetCountItems();
             var restMenusM = new RestMenusModels();
             var categories = await _context.FoodCategories.Select(p => new SelectListItem
             {
@@ -149,6 +164,7 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
+            CallGetCountItems();
             var rest = await _context.RestMenus.FindAsync(id);
             if (rest == null)
             {
@@ -255,6 +271,7 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
+            CallGetCountItems();
            // var result = await DeleteFile(imageName, menuId);
             var restMenu = await _context.RestMenus
                 .Include(r => r.FoodCategory)
