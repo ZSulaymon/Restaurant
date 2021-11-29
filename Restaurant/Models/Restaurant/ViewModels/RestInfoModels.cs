@@ -45,6 +45,6 @@ namespace Restaurant.Models.Restaurant.ViewModels
         public IFormFile ImageFile { get; set; }
         public string ImageName { get; set; }
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
     }
 }

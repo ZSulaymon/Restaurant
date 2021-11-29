@@ -77,12 +77,14 @@ namespace Restaurant.Controllers
             {
                 ModelState.AddModelError("", "У Вас должны быть товары!");
                 ViewBag.Message = "Корзина пуста, У Вас должны быть товары!";
-
             }
             if (ModelState.IsValid)
             {
                 _allOrders.createOrder(order);
-                return RedirectToAction("Complete");
+                ViewBag.Message = "Заказ успешно обработан";
+                return RedirectToAction("Index","Home");
+
+                //return RedirectToAction("Complete");
             }
 
             return View(order);

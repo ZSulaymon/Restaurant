@@ -21,20 +21,20 @@ namespace Restaurant.Controllers
         private readonly RestaurantContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly RestMenusService _restMenusService;
-         private readonly ShopCart _shopCart;
+        private readonly ShopCart _shopCart;
         private readonly HomeController _homeController;
-                                   
+
 
 
         public RestMenusController(RestaurantContext context,
-            IWebHostEnvironment webHostEnvironment, 
+            IWebHostEnvironment webHostEnvironment,
             RestMenusService restMenusService,
             ShopCart shopCart,
             HomeController homeController)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
-           _restMenusService = restMenusService;
+            _restMenusService = restMenusService;
             _shopCart = shopCart;
             _homeController = homeController;
 
@@ -48,7 +48,7 @@ namespace Restaurant.Controllers
         public void CallGetCountItems()
         {
             var count = _homeController.GetCountItems();
-             ViewBag.Count = count;
+            ViewBag.Count = count;
         }
         [Authorize]
         public async Task<IActionResult> Index()
@@ -87,6 +87,7 @@ namespace Restaurant.Controllers
             return finalFileName;
         }
         // GET: RestMenus1/Create
+        [Authorize]
         public async Task<IActionResult> CreateAsync()
         {
             // ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id");
