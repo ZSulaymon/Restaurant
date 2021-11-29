@@ -118,9 +118,27 @@ namespace Restaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RestMenusModels model)
         {
-            
+            //if (model.RestId.ToString() == null)
+            //{
+            //    ModelState.AddModelError("Rest", "sfsds");
+            //}
             if (!ModelState.IsValid)
             {
+                var categories = await _context.FoodCategories.Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Name
+                }).ToListAsync();
+                var RestNames = await _context.RestInfo.Where(r => r.UserId == GetCurrentUsertId()).Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    //Group = p.UserId.ToString(),
+                    Text = p.RestName
+                }).ToListAsync();
+                //}).Where(r=> r.Value.Contains("19a29903-e756-46df-0a2e-08d9b16d62bb")).ToListAsync();
+
+                model.Categories = categories;
+                model.RestNames = RestNames;
                 return View(model);
             }
             string finalFileName = null;
@@ -128,16 +146,12 @@ namespace Restaurant.Controllers
             {
                 finalFileName = await CopyFile(model.ImageFile);
             }
-            if (model.Id != null)
-            {
-
-            }
+ 
             //Current user id
             // var currenUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var rest = new RestMenu
             {
                 Id = Guid.NewGuid(),
-                InsertDataTime = DateTime.Now,
                 CategoryId = model.CategoryId,
                 Name = model.Name,
                 Composition = model.Composition,
@@ -147,6 +161,7 @@ namespace Restaurant.Controllers
                 RestId = model.RestId,
                 UserId = GetCurrentUsertId(),
                 Description = model.Description,
+                InsertDataTime = DateTime.Now,
                 UpdateDate = null
             };
             _context.RestMenus.Add(rest);

@@ -46,6 +46,7 @@ namespace Restaurant
             services.AddTransient<HomeController>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShopCart.GetCart(sp));
+            services.AddMvc(options => options.MaxModelValidationErrors = 50); //максимального количества волидации. по умолчанию это 200 ошибок
 
             services.AddMvc();
             services.AddMemoryCache();

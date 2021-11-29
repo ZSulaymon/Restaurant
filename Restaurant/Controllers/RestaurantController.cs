@@ -76,8 +76,12 @@ namespace Restaurant.Controllers
         } 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RestInfo model)
+        public async Task<IActionResult> Create(RestInfoModels model)
         {
+            if (model.Tables == 0)
+            {
+                ModelState.AddModelError("Table", "Количисто столов не можеть быть пустым");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);

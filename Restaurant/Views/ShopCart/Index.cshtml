@@ -2,13 +2,11 @@
   
     <div class="container">
         <table class="table">
-           @* @ViewBag.Message*@
-
             <thead>
                 <tr>
 
                     <th>
-                        Имя
+                        Имя Заказа
                     </th>
                     <th>
                         Цена
@@ -19,9 +17,7 @@
                     <th>
                         Общая Сумма
                     </th>
-                    <th>
-                        Статус
-                    </th>
+                    
                     <th></th>
                 </tr>
             </thead>
@@ -55,13 +51,11 @@
                 }
 
             <tr class="table-success">
-                @*<td></td>*@
-                <td></td>
+                 <td></td>
                 <td> </td>
                 <td>Total:</td>
                 <td>@Model.shopCart.listShopItems.Sum(x => x.SubTotal)</td>
-                <td></td>
-                @if (@ViewBag.Count > 0)
+                 @if (@ViewBag.Count > 0)
                 {
                     <td>
                         <a class="btn btn-success float-lg-right" asp-controller="Order" asp-action="Checkout">Заказать</a>
