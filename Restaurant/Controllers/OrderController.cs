@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.Controllers
 {
-    public class OrderController : Controller 
+    public class OrderController : Controller
     {
-        private readonly IAllOrders  _allOrders;
+        private readonly IAllOrders _allOrders;
         private readonly ShopCart _shopCart;
         private readonly RestaurantContext _context;
         private readonly HomeController _homeController;
@@ -30,26 +30,22 @@ namespace Restaurant.Controllers
             _homeController = homeController;
         }
 
-        public void  CallGetCountItems()
+        public void CallGetCountItems()
         {
-             var count = _homeController.GetCountItems();
+            var count = _homeController.GetCountItems();
             //ViewBag.Count = _homeController.ViewBag.count;
-               ViewBag.Count = count;
+            ViewBag.Count = count;
         }
         [HttpGet]
         public IActionResult Checkout()
         {
-             return View();
+            return View();
         }
         [HttpGet]
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         [Authorize]
         public async Task<IActionResult> Index()
         {
-             var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c=> c.Orders.Status == "Обрабатывается");
+            var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c => c.Orders.Status == "Обрабатывается");
             CallGetCountItems();
 
             return View(await restaurantContext.ToListAsync());
@@ -79,15 +75,15 @@ namespace Restaurant.Controllers
             _shopCart.listShopItems = _shopCart.getShopItems();
             if (_shopCart.listShopItems.Count == 0)
             {
-                ModelState.AddModelError("","У Вас должны быть товары!");
-                 ViewBag.Message = "Корзина пуста, У Вас должны быть товары!";
- 
+                ModelState.AddModelError("", "У Вас должны быть товары!");
+                ViewBag.Message = "Корзина пуста, У Вас должны быть товары!";
+
             }
             if (ModelState.IsValid)
             {
                 _allOrders.createOrder(order);
                 return RedirectToAction("Complete");
-             }
+            }
 
             return View(order);
         }
@@ -130,8 +126,33 @@ namespace Restaurant.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost, ActionName("Ready")]
+        [Authorize]
+        [HttpGet, ActionName("ReadyOrders")]
+        public async Task<IActionResult> GetReadyOrder()
+        {
+            var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c => c.Orders.Status == "Готово");
+            CallGetCountItems();
+            return View(await restaurantContext.ToListAsync());
+        }
+
+        [Authorize]
         [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("BrinkBack")]
+        public async Task<IActionResult> ToBtinkBack(Guid id)
+        {
+            var orders = await _context.Orders.FindAsync(id);
+
+            orders.Status = "Обрабатывается";
+           // _context.Orders.Remove(orders);
+            //var orderDetail = await _context.OrderDetails.FindAsync(id);
+            //_context.OrderDetails.Remove(orderDetail);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Ready")]
         public async Task<IActionResult> OrderReady(Guid id)
         {
             var orders = await _context.Orders.FindAsync(id);
