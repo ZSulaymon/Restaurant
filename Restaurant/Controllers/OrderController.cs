@@ -7,6 +7,7 @@ using Restaurant.Models.Restaurant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Restaurant.Controllers
@@ -29,7 +30,11 @@ namespace Restaurant.Controllers
             this._context = Context;
             _homeController = homeController;
         }
-
+        public string GetCurrentUsertId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //return userId;
+        }
         public void CallGetCountItems()
         {
             var count = _homeController.GetCountItems();
@@ -45,7 +50,7 @@ namespace Restaurant.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c => c.Orders.Status == "Обрабатывается");
+            var restaurantContext = _context.OrderDetails.Where(c=>c.UserId == GetCurrentUsertId()).Include(o => o.Orders).Where(c => c.Orders.Status == "Обрабатывается");
             CallGetCountItems();
 
             return View(await restaurantContext.ToListAsync());
@@ -81,10 +86,10 @@ namespace Restaurant.Controllers
             if (ModelState.IsValid)
             {
                 _allOrders.createOrder(order);
-                ViewBag.Message = "Заказ успешно обработан";
-                return RedirectToAction("Index","Home");
+               // ViewBag.Message = "Заказ успешно обработан";
+                //return RedirectToAction("Index","Home");
 
-                //return RedirectToAction("Complete");
+                return RedirectToAction("Complete");
             }
 
             return View(order);
@@ -132,7 +137,7 @@ namespace Restaurant.Controllers
         [HttpGet, ActionName("ReadyOrders")]
         public async Task<IActionResult> GetReadyOrder()
         {
-            var restaurantContext = _context.OrderDetails.Include(o => o.Orders).Where(c => c.Orders.Status == "Готово");
+            var restaurantContext = _context.OrderDetails.Where(c => c.UserId == GetCurrentUsertId()).Include(o => o.Orders).Where(c => c.Orders.Status == "Готово");
             CallGetCountItems();
             return View(await restaurantContext.ToListAsync());
         }

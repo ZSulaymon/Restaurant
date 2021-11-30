@@ -10,8 +10,8 @@ using Restaurant.Context;
 namespace Restaurant.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20211127052021_addUserIdToREstMenu")]
-    partial class addUserIdToREstMenu
+    [Migration("20211130113541_sdssaausdklwffgsfbfbjefdefsddf")]
+    partial class sdssaausdklwffgsfbfbjefdefsddf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -284,6 +284,9 @@ namespace Restaurant.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenuId");
@@ -375,9 +378,6 @@ namespace Restaurant.Migrations
                     b.Property<Guid>("RestId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RestInfoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
@@ -388,7 +388,7 @@ namespace Restaurant.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("RestInfoId");
+                    b.HasIndex("RestId");
 
                     b.HasIndex("UserId");
 
@@ -407,7 +407,7 @@ namespace Restaurant.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("ShopCartId")
@@ -416,7 +416,7 @@ namespace Restaurant.Migrations
                     b.Property<string>("ShopStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("SubTotal")
+                    b.Property<decimal?>("SubTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
@@ -518,10 +518,12 @@ namespace Restaurant.Migrations
 
                     b.HasOne("Restaurant.Models.Restaurant.RestInfo", "RestInfo")
                         .WithMany()
-                        .HasForeignKey("RestInfoId");
+                        .HasForeignKey("RestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Restaurant.Models.Account.User", "User")
-                        .WithMany()
+                        .WithMany("RestMenus")
                         .HasForeignKey("UserId");
 
                     b.Navigation("FoodCategory");
@@ -545,6 +547,8 @@ namespace Restaurant.Migrations
             modelBuilder.Entity("Restaurant.Models.Account.User", b =>
                 {
                     b.Navigation("RestInfo");
+
+                    b.Navigation("RestMenus");
                 });
 
             modelBuilder.Entity("Restaurant.Models.Restaurant.FoodCategory", b =>

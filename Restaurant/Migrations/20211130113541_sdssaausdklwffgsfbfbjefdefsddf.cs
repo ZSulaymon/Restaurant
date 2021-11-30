@@ -2,22 +2,22 @@
 
 namespace Restaurant.Migrations
 {
-    public partial class changeColumnName : Migration
+    public partial class sdssaausdklwffgsfbfbjefdefsddf : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Total",
-                table: "ShopCartItems",
-                newName: "SubTotal");
+                name: "RestId",
+                table: "OrderDetails",
+                newName: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "SubTotal",
-                table: "ShopCartItems",
-                newName: "Total");
+                name: "UserId",
+                table: "OrderDetails",
+                newName: "RestId");
         }
     }
 }

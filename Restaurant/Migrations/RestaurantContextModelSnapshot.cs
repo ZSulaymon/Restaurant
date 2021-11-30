@@ -282,6 +282,9 @@ namespace Restaurant.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenuId");
@@ -402,7 +405,7 @@ namespace Restaurant.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("ShopCartId")
@@ -411,7 +414,7 @@ namespace Restaurant.Migrations
                     b.Property<string>("ShopStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("SubTotal")
+                    b.Property<decimal?>("SubTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")

@@ -41,7 +41,7 @@ namespace Restaurant.Models.Restaurant
 
             return new ShopCart(context) { ShopCartId = shopCartId }; 
         }
-        public async Task AddToCart(RestMenu RestMenu )
+        public async Task AddToCart(RestMenu RestMenu)
         {
             _context.ShopCartItems.Add(new ShopCartItem
             {
