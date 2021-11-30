@@ -10,15 +10,27 @@
 </style>
 
 @*<h3>@ViewBag.Message</h3>*@
+<div>
+    <ul class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <li class="navbar-nav">
+            <a class="nav-link text-dark" asp-area="" asp-action="Create">Турецкая кухня</a>
+        </li>
+        &nbsp;&nbsp;&nbsp
+        <li class="navbar-nav">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Национальная кухня</a>
+        </li>
 
+    </ul>
+</div>
 <div class="row">
     @foreach (var rest in Model)
     {
         var routeDate = new Dictionary<string, string>()
 {
             { "id", rest.Id.ToString() },
-            //{ "categoryId", rest.Id.ToString() }
+           // { "categoryId", rest.Id.ToString() }
         };
+
 <div class="col-md">
     <div class="card" style="width: 18rem; padding:10px;">
         <img src="~/images/@rest.ImageName" style="width:250px; height:120px; align-self:center" class="card-img-top" alt="@rest.ImageName">

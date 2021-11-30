@@ -53,6 +53,5 @@ namespace Restaurant.Models.Restaurant.ViewModels
         [Display(Name = "Имя Категории")]
          public string CategoryName { get; set; }
         public string UserId { get; set; }
-        //public virtual User User { get; set; }
-    }
+     }
 }

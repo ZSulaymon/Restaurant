@@ -172,6 +172,7 @@ namespace Restaurant.Controllers
         }
 
         // GET: RestMenus1/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
             //var restmenu = await _restMenusService.GetById(id);

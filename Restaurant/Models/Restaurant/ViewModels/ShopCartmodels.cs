@@ -8,5 +8,6 @@ namespace Restaurant.Models.Restaurant.ViewModels
     public class ShopCartmodels
     {
         public ShopCart shopCart { get; set; }
+        //public virtual ShopCartItem  ShopCartItem  { get; set; }
     }
 }

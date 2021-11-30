@@ -36,5 +36,8 @@ namespace Restaurant.Models.Restaurant
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        //public virtual  ShopCartItem ShopCartItem { get; set; }
+        //public virtual ICollection<ShopCartItem> ShopCartItem { get; set; }
+
     }
 }

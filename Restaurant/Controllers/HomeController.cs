@@ -30,11 +30,7 @@ namespace Restaurant.Controllers
             RestInfoService restInfoService,
             RestMenusService restMenusService,
             RestaurantContext context,
-            ShopCart shopCart
-            //HomeController homeController,
-            //ControllerContext controllerContext
-            
-            )
+            ShopCart shopCart)
         {
             _context = context;
             _logger = logger;
@@ -55,13 +51,11 @@ namespace Restaurant.Controllers
                 ViewBag.Message = "";
                 var count = _shopCart.listShopItems.Count;
                 ViewBag.Count = count;
-
             }
             else
             {
                 var count = _shopCart.listShopItems.Count;
                 ViewBag.Count = count;
-
             }
             return _shopCart.listShopItems.Count;
         }
@@ -70,13 +64,7 @@ namespace Restaurant.Controllers
         {
             GetCountItems();
             var allRest = await _restInfoService.GetAll();
-            // _shopCart.listShopItems = _shopCart.getShopItems();
-            //if (_shopCart.listShopItems.Count == 0)
-            //{
-            //      ViewBag.Message = "";
-            //    var count = _shopCart.listShopItems.Count;
-            //    ViewBag.Count = count;
-            //}
+
             return View(allRest);
         }
 
@@ -88,31 +76,16 @@ namespace Restaurant.Controllers
                 return NotFound();
             }
             var restMenuById = await _restMenusService.GetMenuById(id);
-            //_shopCart.listShopItems = _shopCart.getShopItems();
-            //if (_shopCart.listShopItems.Count == 0)
-            //{
-            //    ViewBag.Message = "";
-            //    var count = _shopCart.listShopItems.Count;
-            //    ViewBag.Count = count;
-            //}
             GetCountItems();
-
             return View(restMenuById);
-
         }
 
-        private IActionResult NotFound()
-        {
-            throw new NotImplementedException();
-        }
-
-       
+         
 
         public IActionResult Privacy()
         {
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

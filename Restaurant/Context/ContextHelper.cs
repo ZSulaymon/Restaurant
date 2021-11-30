@@ -44,22 +44,19 @@ namespace Restaurant.Context
             {
                 var foodCategories = new List<FoodCategory>
                 {
-                    new FoodCategory { Id = Guid.NewGuid(),Name  = "appetizers "},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "cold platter"},
-                    new FoodCategory { Id = Guid.NewGuid(),  Name = "hot appetizers"},
-                    new FoodCategory { Id = Guid.NewGuid(),  Name = "startes"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "soups"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "salads"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "main dishes"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "meat"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "steak "},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "poultry / poultry dishes"},
-                    new FoodCategory { Id = Guid.NewGuid(),Name = "fish and seafoods"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "side dishes / sides"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "snacks"},
-                    new FoodCategory { Id = Guid.NewGuid(),Name = "souces"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "desserts"},
-                    new FoodCategory { Id = Guid.NewGuid(), Name = "wine list"}, 
+                    new FoodCategory { Id = Guid.NewGuid(),Name  = "закуски"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "холодное блюдо"},
+                    new FoodCategory { Id = Guid.NewGuid(),  Name = "горячие закуски"},
+                     new FoodCategory { Id = Guid.NewGuid(), Name = "супы"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "салаты"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "основные блюда"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "стейк"},
+                     new FoodCategory { Id = Guid.NewGuid(), Name = "птица / блюда из птицы"},
+                    new FoodCategory { Id = Guid.NewGuid(),Name = "рыба и морепродукты"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "гарниры"},
+                     new FoodCategory { Id = Guid.NewGuid(),Name = "соусы"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "десерты"},
+                    new FoodCategory { Id = Guid.NewGuid(), Name = "винная карта"}, 
                 };
 
                 context.FoodCategories.AddRange(foodCategories);

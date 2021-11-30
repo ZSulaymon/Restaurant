@@ -8,7 +8,11 @@
 <div class="row">
     @foreach (var rest in Model)
     {
- 
+        var routeDate = new Dictionary<string, string>()
+{
+            { "id", rest.Id.ToString() },
+            { "RestId", rest.RestId.ToString() }
+        };
 
 <div class="col-md">
     <div class="card" style="width: 18rem; padding:10px">
@@ -19,11 +23,13 @@
             <pre class="card-subtitle"><b>Время приготовления:</b> @rest.CoocingTime</pre>
             <pre class="card-subtitle"><b>Состав:</b> @rest.Composition</pre>
             <pre class="card-subtitle"><b>Описание:</b> @rest.Description</pre>
-           
+
             <a asp-action="Details" asp-controller="RestMenus" asp-route-id="@rest.Id" class="btn btn-warning"> <span class="glyphicon glyphicon-shopping-cart"></span>Подробно</a>
-          
-            <a class="btn btn-success" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@rest.Id">В корзину </a>
-      
+
+
+            <a class="btn btn-success" asp-controller="ShopCart" asp-action="AddToCart" asp-all-route-data="routeDate"  >В корзину </a>
+            @*asp-route-id="@rest.Id"*@
+
         </div>
     </div>
 </div>

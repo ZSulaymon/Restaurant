@@ -55,7 +55,7 @@ namespace Restaurant.Services.RestInfos
         }
         public async Task<List<RestInfoModels>> GetAll()
         {
-            var movies = await _context.RestInfo.Select(m => new RestInfoModels
+            var allRest = await _context.RestInfo.Select(m => new RestInfoModels
             {
                 Id = m.Id,
                 RestName = m.RestName,
@@ -69,9 +69,11 @@ namespace Restaurant.Services.RestInfos
                 Description = m.Description,
                 Kitchen = m.Kitchen,
                 UpdateDate = m.UpdateDate,
-                UserId = m.UserId
+                UserId = m.UserId,
+                
+                 
             }).ToListAsync();
-            return movies;
+            return allRest;
         }
 
         public async Task<RestInfoModels> GetById(Guid? id)

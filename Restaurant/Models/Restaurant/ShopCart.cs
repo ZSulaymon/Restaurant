@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurant.Context;
@@ -9,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Restaurant.Models.Restaurant.ViewModels;
+
 
 namespace Restaurant.Models.Restaurant
 {
@@ -41,19 +41,31 @@ namespace Restaurant.Models.Restaurant
 
             return new ShopCart(context) { ShopCartId = shopCartId }; 
         }
-        public async Task AddToCart(RestMenu RestMenu)
+        public async Task AddToCart(RestMenu RestMenu )
         {
-           
             _context.ShopCartItems.Add(new ShopCartItem
             {
+               // ShopCartId = ShopCartId,
+               //// RestMenu = RestMenu,
+               // Price = RestMenu.Price,
+               //Quantity = item.Quantity,
+               // //SubTotal = RestMenu.Price,
+               // MenuId = RestMenu.Id,
+
+                //ShopStatus = "Не заказано",
+                //SubTotal = RestMenu.ShopCartItem.Quantity * RestMenu.Price
+
                 ShopCartId = ShopCartId,
                 RestMenu = RestMenu,
                 Price = RestMenu.Price,
                 Quantity = 1,
                 SubTotal = RestMenu.Price,
+                //SubTotal = RestMenu. * RestMenu.Price,
+
                 MenuId = RestMenu.Id,
                 ShopStatus = "Не заказано"
-            }) ;
+
+            });
             _context.SaveChanges();
         }
         public async Task UpAddToCart(ShopCartItem item)

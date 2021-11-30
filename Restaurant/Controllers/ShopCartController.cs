@@ -47,7 +47,7 @@ namespace Restaurant.Controllers
         public ViewResult Index()
         {
             var items = _shopCart.getShopItems();
-             _shopCart.listShopItems = items;
+            _shopCart.listShopItems = items;
             //_shopCart.listShopItems = _shopCart.getShopItems();
             //if (_shopCart.listShopItems.Count == 0)
             //{
@@ -57,7 +57,7 @@ namespace Restaurant.Controllers
             var obj = new ShopCartmodels
             {
                 shopCart = _shopCart
-            };                
+            };
             return View(obj);
         }
 
@@ -67,7 +67,7 @@ namespace Restaurant.Controllers
             return View();
         }
         //public IActionResult AddToCart(Guid id)
-        public async Task<IActionResult> AddToCart(Guid? id)
+        public async Task<IActionResult> AddToCart(Guid id,Guid RestId)
 
         {       
             var items =  _shopCart.getShopItems(id);
@@ -79,16 +79,15 @@ namespace Restaurant.Controllers
                 item = items.Find(x => x.RestMenu.Id == id);
             }
             if (item != null && item.RestMenu?.Id == id)
-            {
-              
+            {            
                await _shopCart.UpAddToCart(item);          
             }
             else
             {
                 await _shopCart.AddToCart(menu);
             }
-            return RedirectToAction(nameof(Index));
-            //return RedirectToAction($"GetMenu/{id}", "Home");
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("GetMenu", "Home", new {id =  RestId});
          }
         public async Task<IActionResult> Delete(Guid? id)
         {
