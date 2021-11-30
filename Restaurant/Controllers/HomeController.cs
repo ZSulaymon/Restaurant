@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Restaurant.Context;
 using Restaurant.Models;
 using Restaurant.Models.Restaurant;
+using Restaurant.Models.Restaurant.ViewModels;
 using Restaurant.Services.RestInfos;
 using Restaurant.Services.RestMenus;
 using System;
@@ -60,10 +61,26 @@ namespace Restaurant.Controllers
             return _shopCart.listShopItems.Count;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Kitchen)
         {
             GetCountItems();
-            var allRest = await _restInfoService.GetAll();
+            //var allRest = "";
+             
+            List<RestInfoModels> allRest;
+            if (string.IsNullOrEmpty(Kitchen))
+            {
+                allRest = await _restInfoService.GetAll();
+            }
+            else
+            {
+                allRest = await _restInfoService.GetAll("", Kitchen);
+            }
+            return View(allRest);
+        } 
+        public async Task<IActionResult> TurkKitchen(string Kitchen)
+        {
+            GetCountItems();
+            var allRest = await _restInfoService.GetAllByKetchen(Kitchen);
 
             return View(allRest);
         }

@@ -33,7 +33,7 @@ namespace Restaurant.Services.RestInfos
         //    return userId;
         //}
         //public async Task<List<RestInfoModels>> GetAll(Func<string> id)
-        public async Task<List<RestInfoModels>> GetAll(string id)
+        public async Task<List<RestInfoModels>> GetAll(string id, string Kitchen)
         {
             var rest = await _context.RestInfo.Select(m => new RestInfoModels
             {
@@ -50,7 +50,7 @@ namespace Restaurant.Services.RestInfos
                 Kitchen = m.Kitchen,
                 UpdateDate = m.UpdateDate,
                 UserId = m.UserId
-            }).Where(r=> r.UserId == id).ToListAsync();
+            }).Where(r=> r.UserId == id || r.Kitchen == Kitchen).ToListAsync();
             return rest;
         }
         public async Task<List<RestInfoModels>> GetAll()
@@ -73,6 +73,28 @@ namespace Restaurant.Services.RestInfos
                 
                  
             }).ToListAsync();
+            return allRest;
+        }
+        public async Task<List<RestInfoModels>> GetAllByKetchen(string kitchen)
+        {
+            var allRest = await _context.RestInfo.Select(m => new RestInfoModels
+            {
+                Id = m.Id,
+                RestName = m.RestName,
+                ImageName = m.ImageName,
+                InsertDateTime = m.InsertDateTime,
+                RestAddress = m.RestAddress,
+                RestAdministrator = m.RestAdministrator,
+                RestPhone = m.RestPhone,
+                Tables = m.Tables,
+                RestReferencePoint = m.RestReferencePoint,
+                Description = m.Description,
+                Kitchen = m.Kitchen,
+                UpdateDate = m.UpdateDate,
+                UserId = m.UserId,
+                
+                 
+            }).Where(r=>r.Kitchen.Equals(kitchen)).ToListAsync();
             return allRest;
         }
 

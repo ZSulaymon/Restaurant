@@ -1,4 +1,6 @@
-﻿@model Restaurant.Models.Restaurant.RestInfo
+﻿@*@model Restaurant.Models.Restaurant.RestInfo*@
+@model Restaurant.Models.Restaurant.ViewModels.RestInfoModels
+
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -82,10 +84,10 @@
                             <button data-rest-id="@Model.Id" data-image-name="@Model.ImageName" id="remove-img-btn" class="btn btn-sm btn-danger">Delete image</button>
                         </div>
                     </div>
-                  </div>
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-primary" />
-                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
             </form>
         </div>
     </div>
@@ -98,33 +100,33 @@
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
         <script>
-        $(document).ready(() => {
-            $('#remove-img-btn').click((e) => {
+            $(document).ready(() => {
+                $('#remove-img-btn').click((e) => {
 
-                e.preventDefault();
+                    e.preventDefault();
 
-                const imageName = $(e.currentTarget).data('image-name');
-                const restId = $(e.currentTarget).data('rest-id');
+                    const imageName = $(e.currentTarget).data('image-name');
+                    const restId = $(e.currentTarget).data('rest-id');
 
-                $.ajax({
-                    url: '/Restaurant/DeleteImage/',
-                    data: { imageName: imageName, restId: restId },
-                    success: (result) => {
-                        if (!result) {
-                            console.log('bad');
-                            return;
+                    $.ajax({
+                        url: '/Restaurant/DeleteImage/',
+                        data: { imageName: imageName, restId: restId },
+                        success: (result) => {
+                            if (!result) {
+                                console.log('bad');
+                                return;
+                            }
+
+                            $('#rest-img').removeAttr('src');
+
+                            console.log('ok');
                         }
+                    }).fail((error) => {
+                        console.error(error);
+                    });
 
-                        $('#rest-img').removeAttr('src');
-
-                        console.log('ok');
-                    }
-                }).fail((error) => {
-                    console.error(error);
-                });
-
-            })
-        });
+                })
+            });
         </script>
     }
 

@@ -15,7 +15,7 @@
 <body>
 
     <div>
-        <h4>RestInfo</h4>
+        <h4>Информация о ресторане</h4>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
@@ -76,8 +76,11 @@
 
         </div>
         <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            @if (User.Identity.IsAuthenticated)
+            {
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
             <a asp-action="Index">Back to List</a>
+            }
         </div>
 </body>
 </html>

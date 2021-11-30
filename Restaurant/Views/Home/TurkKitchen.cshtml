@@ -8,24 +8,38 @@
         margin-bottom: 25px !important;
     }
 </style>
-     
-       
- <div>
-        <ul class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <li class="navbar-nav">
-                @*<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-all-route-data="kitch" asp-action="TurkKitchen">Турецкая кухня</a>*@
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-route-kitchen="Turk" asp-action="Index">Турецкая кухня</a>
-            </li>
-            &nbsp;&nbsp;&nbsp
-            <li class="navbar-nav">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-route-kitchen="National" asp-action="Index">Национальная кухня</a>
-            </li>
+@*@{var kitch = ""; }*@
+@{var kitch = new Dictionary<string, string>(); }
 
-        </ul>     
+@*<h3>@ViewBag.Message</h3>*@
+<div>
+    @foreach (var rest in Model)
+    {
 
- 
+        var routeDate = new Dictionary<string, string>()
+{
+                     //{ "id", rest.Id.ToString() },
+                  { "Kitchen", rest.Kitchen.ToString() }
+             };
+        kitch = routeDate;
+
+    }
+    <ul class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <li class="navbar-nav">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home"   asp-action="Index">Все рестораны</a>
+        </li>
+        &nbsp;&nbsp;&nbsp
+        <li class="navbar-nav">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Национальная кухня</a>
+        </li>
+
+    </ul>
+
+
+    @*}*@
+
 </div>
- <div class="row">
+<div class="row">
     @foreach (var rest in Model)
     {
         @*<div>
@@ -33,8 +47,8 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-route-id="@rest.Kitchen" asp-action="TurkKitchen">Турецкая кухня</a>
             </li>
                 </div>*@
-    var routeDate = new Dictionary<string, string>()
-    {
+        var routeDate = new Dictionary<string, string>()
+{
         { "id", rest.Id.ToString() },
         //{ "Kitchen", rest.Kitchen }
     };

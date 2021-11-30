@@ -18,6 +18,5 @@ namespace Restaurant.Models.Restaurant
         public virtual RestMenu RestMenu { get; set; }
         [ForeignKey("OrderId")]
         public virtual Order Orders { get; set; }
-
     }
 }

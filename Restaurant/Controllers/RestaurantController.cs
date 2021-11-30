@@ -12,6 +12,7 @@ using System.IO;
 using Restaurant.Services.RestInfos;
 using Microsoft.AspNetCore.Authorization;
 using Restaurant.Models.Restaurant.ViewModels;
+using AutoMapper;
 
 namespace Restaurant.Controllers
 {
@@ -22,18 +23,22 @@ namespace Restaurant.Controllers
         private readonly RestInfoService _restInfoService;
         private readonly ShopCart _shopCart;
         private readonly HomeController _homeController;
+        private readonly IMapper _mapper;
+
 
         public RestaurantController(RestaurantContext context,
             IWebHostEnvironment webHostEnvironment, 
             RestInfoService restInfoService,
              ShopCart shopCart,
-             HomeController homeController)
+             HomeController homeController,
+             IMapper mapper)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _restInfoService = restInfoService;
             _shopCart = shopCart;
             _homeController = homeController;
+            _mapper = mapper;
         }
         public  string GetCurrentUsertId()
         {
@@ -51,7 +56,7 @@ namespace Restaurant.Controllers
         public async Task<IActionResult> Index()
         {
             CallGetCountItems();
-            var rest = await _restInfoService.GetAll(GetCurrentUsertId());
+            var rest = await _restInfoService.GetAll(GetCurrentUsertId(),"");
             return View(rest);
         }
 
@@ -186,10 +191,30 @@ namespace Restaurant.Controllers
             {
                 return NotFound();
             }
-            return View(restMenu);
-        }
+            var restInfo = _mapper.Map<RestInfoModels>(restMenu);
 
-        
+            return View(restInfo);
+        }
+        //public async Task<RestInfoModels> GetById(Guid? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        throw new Exception("Rest with this id not found");
+        //    }
+
+        //    var rest = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(id));
+
+        //    if (rest == null)
+        //    {
+        //        throw new Exception("Rest with this id not found");
+        //    }
+
+        //    var restInfo = _mapper.Map<RestInfoModels>(rest);
+
+
+        //    return restInfo;
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(RestInfo model)

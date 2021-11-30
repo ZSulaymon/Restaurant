@@ -119,10 +119,6 @@ namespace Restaurant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RestMenusModels model)
         {
-            //if (model.RestId.ToString() == null)
-            //{
-            //    ModelState.AddModelError("Rest", "sfsds");
-            //}
             if (!ModelState.IsValid)
             {
                 var categories = await _context.FoodCategories.Select(p => new SelectListItem
@@ -175,8 +171,6 @@ namespace Restaurant.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            //var restmenu = await _restMenusService.GetById(id);
-            //return View(restmenu);
             if (id == null)
             {
                 return NotFound();

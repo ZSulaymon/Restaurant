@@ -39,7 +39,7 @@ namespace Restaurant.Models.Restaurant.ViewModels
         //[Required(ErrorMessage = "Картинка не можеть быть пустым")]
         public string ImageName { get; set; }
         [Display(Name = "Картинка")]
-        [Required(ErrorMessage = "Картинка не можеть быть пустым")]
+        //[Required(ErrorMessage = "Картинка не можеть быть пустым")]
         public IFormFile ImageFile { get; set; }
         [Display(Name = "Имя Ресторана")]
         [Required(ErrorMessage = "Имя ресторана не можеть быть пустым")]
