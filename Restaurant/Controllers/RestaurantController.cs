@@ -110,6 +110,7 @@ namespace Restaurant.Controllers
                 Tables = model.Tables,
                 RestReferencePoint = model.RestReferencePoint,
                 Description = model.Description,
+                Kitchen = model.Kitchen,
                 UpdateDate = null
                  
             };

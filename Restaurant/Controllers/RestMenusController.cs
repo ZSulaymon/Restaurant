@@ -192,13 +192,22 @@ namespace Restaurant.Controllers
                 ImageName = rest.ImageName,
                 Description = rest.Description,
                 UserId = rest.UserId,
-                RestId = rest.RestId,
-                CategoryName = rest.FoodCategory.Name,
                 CategoryId = rest.CategoryId,
-                
+                RestId = rest.RestId,
+                //Categories = rest.FoodCategory.Name.ToList(),
+               // CategoryName = rest.FoodCategory.Name,
+
+                Categories = await _context.FoodCategories
+                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
+                RestNames = await _context.RestInfo.Where(r => r.UserId == GetCurrentUsertId())
+                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.RestName }).ToListAsync()
+
+
+
             };
-            ViewData["Category"] = new SelectList(_context.FoodCategories, "Name", "Name", result.CategoryName);
-            ViewData["RestN"] = new SelectList(_context.RestInfo.Where(r => r.UserId == GetCurrentUsertId()), "RestName", "RestName", result.RestName);
+
+            //ViewData["Category"] = new SelectList(_context.FoodCategories, "Name", "Name", result.CategoryName);
+            //ViewData["RestN"] = new SelectList(_context.RestInfo.Where(r => r.UserId == GetCurrentUsertId()), "RestName", "RestName", result.RestName);
 
             return View(result);
         }
