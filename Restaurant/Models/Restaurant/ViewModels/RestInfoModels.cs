@@ -42,7 +42,7 @@ namespace Restaurant.Models.Restaurant.ViewModels
         public string RestAdministrator { get; set; }
         [Display(Name = "Картинка")]
         public IFormFile ImageFile { get; set; }
-        [Required(ErrorMessage = "Картинка не можеть быть пустым")]
+       // [Required(ErrorMessage = "Картинка не можеть быть пустым")]
         public string ImageName { get; set; }
         public string UserId { get; set; }
         //public virtual User User { get; set; }
