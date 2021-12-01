@@ -192,13 +192,36 @@ namespace Restaurant.Controllers
                 ImageName = rest.ImageName,
                 Description = rest.Description,
                 UserId = rest.UserId,
-                 
-                //CategoryName  = rest.FoodCategory.Name,
-                Categories = await _context.FoodCategories
-                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
-                RestNames = await _context.RestInfo.Where(r=>r.UserId == GetCurrentUsertId())
-                     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.RestName }).ToListAsync()
+                //CategoryId = rest.CategoryId,
+                RestId = rest.RestId,
+                //Categories = rest.FoodCategory.Name.ToList(),
+                CategoryName = rest.FoodCategory.Name,
+
+                //CategoryId = new SelectList(_context.FoodCategories, "Id", "Id", rest.CategoryId).ToString(),
+                //CategoryName = new SelectList(_context.FoodCategories, "Id", "Id", rest.CategoryId).ToString(),
+                //RestNames = new SelectList(_context.FoodCategories, "Id", "Id", rest.RestId).ToList(),
+                //CategoryId = new SelectList(_context.FoodCategories, "Id", "Id", rest.CategoryId).ToString,
+                //Categories = await _context.FoodCategories
+                //     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToListAsync(),
+                //RestNames = await _context.RestInfo.Where(r=>r.UserId == GetCurrentUsertId())
+                //     .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.RestName }).ToListAsync()
+
+
+                //ViewData["CategoryId"] = new SelectList(_context.FoodCategories, "Id", "Id", restMenu.CategoryId);
+                //ViewData["RestId"] = new SelectList(_context.RestInfo, "Id", "Id", restMenu.RestId);
+                //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", restMenu.UserId);
+
             };
+            //{
+            //    ViewData["Category"] = new SelectList(_context.FoodCategories, "Id", "Id", result.CategoryName);
+            //    ViewData["RestN"] = new SelectList(_context.RestInfo, "Id", "Id", result.RestName);
+            //    return View(ViewData);
+            //}
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", result.UserId);
+
+            ViewData["Category"] = new SelectList(_context.FoodCategories, "Name", "Name", result.CategoryName);
+            ViewData["RestN"] = new SelectList(_context.RestInfo.Where(r => r.UserId == GetCurrentUsertId()), "RestName", "RestName", result.RestName);
+
             return View(result);
         }
 

@@ -77,13 +77,13 @@ namespace Restaurant.Controllers
             }
             return View(allRest);
         } 
-        public async Task<IActionResult> TurkKitchen(string Kitchen)
-        {
-            GetCountItems();
-            var allRest = await _restInfoService.GetAllByKetchen(Kitchen);
+        //public async Task<IActionResult> TurkKitchen(string Kitchen)
+        //{
+        //    GetCountItems();
+        //    var allRest = await _restInfoService.GetAllByKetchen(Kitchen);
 
-            return View(allRest);
-        }
+        //    return View(allRest);
+        //}
 
         // GET: RestMenus1
          public async Task<IActionResult> GetMenu(Guid? id)

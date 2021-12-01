@@ -51,7 +51,7 @@ namespace Restaurant.Models.Restaurant.ViewModels
         [Required(ErrorMessage = "Категория не можеть быть пустым")]
         public Guid CategoryId { get; set; }
         [Display(Name = "Имя Категории")]
-         public string CategoryName { get; set; }
+        public string CategoryName { get; set; }
         public string UserId { get; set; }
      }
 }

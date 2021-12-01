@@ -11,7 +11,6 @@ namespace Restaurant.Models.Restaurant
         [Key]
         public Guid Id  { get; set; }
         public string Name { get; set; }
-
         public virtual ICollection<RestMenu>  RestMenus { get; set; }
 
     }
