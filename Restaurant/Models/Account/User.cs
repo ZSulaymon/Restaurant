@@ -9,11 +9,7 @@ namespace Restaurant.Models.Account
 {
     public class User : IdentityUser
     {
-
-
         public virtual ICollection<RestInfo> RestInfo { get; set; }
         public virtual ICollection<RestMenu> RestMenus { get; set; }
-
-
     }
 }

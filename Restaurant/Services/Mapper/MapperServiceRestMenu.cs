@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using Restaurant.Models.Account;
 using Restaurant.Models.Restaurant;
 using Restaurant.Models.Restaurant.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
  
 namespace Restaurant.Services.Mapper
 {
@@ -45,11 +41,6 @@ namespace Restaurant.Services.Mapper
                 //.ForMember(r => r.RestInfo.RestName, option => option.MapFrom(r => r.RestName))
                 //.ForMember(r => r.FoodCategory.Id, option => option.MapFrom(r => r.CategoryId))
                 //.ForMember(r => r.FoodCategory.Name, option => option.MapFrom(r => r.CategoryName));
-
-
-
-
-
         }
     }
 }

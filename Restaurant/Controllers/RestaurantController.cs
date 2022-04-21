@@ -115,7 +115,7 @@ namespace Restaurant.Controllers
                  
             };
             _context.Add(restInfo);
-                   await _context.SaveChangesAsync();
+
                    return RedirectToAction(nameof(Index));
         }
         private async Task<string> CopyFile(IFormFile imageFile)
@@ -125,7 +125,7 @@ namespace Restaurant.Controllers
             var rootPath = _webHostEnvironment.WebRootPath;
             var filename = Path.GetFileNameWithoutExtension(imageFile.FileName); //02animalpicture
             var fileExtension = Path.GetExtension(imageFile.FileName); //.jpeg
-            var finalFileName = $"{filename}_{DateTime.Now.ToString("yyMMddHHmmssff")}{fileExtension}";
+            var finalFileName = $"{filename}_{DateTime.Now:yyMMddHHmmssff}{fileExtension}";
             var filePath = Path.Combine(rootPath, "images", finalFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -196,25 +196,6 @@ namespace Restaurant.Controllers
 
             return View(restInfo);
         }
-        //public async Task<RestInfoModels> GetById(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        throw new Exception("Rest with this id not found");
-        //    }
-
-        //    var rest = await _context.RestInfo.FirstOrDefaultAsync(p => p.Id.Equals(id));
-
-        //    if (rest == null)
-        //    {
-        //        throw new Exception("Rest with this id not found");
-        //    }
-
-        //    var restInfo = _mapper.Map<RestInfoModels>(rest);
-
-
-        //    return restInfo;
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

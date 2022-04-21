@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,17 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Context;
 using Restaurant.Models.Account;
-
 using System;
-using System.Collections;
 using Microsoft.AspNetCore.Http;
-//using Restaurant;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Restaurant.Services;
-using Restaurant.Services.RestMenus;
 using Restaurant.Models.Restaurant;
 using Restaurant.Models.Interfaces;
 using Restaurant.Controllers;
@@ -127,6 +118,8 @@ namespace Restaurant
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
         }
     }
 }
