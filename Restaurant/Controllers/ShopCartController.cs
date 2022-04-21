@@ -48,11 +48,6 @@ namespace Restaurant.Controllers
         {
             var items = _shopCart.getShopItems();
             _shopCart.listShopItems = items;
-            //_shopCart.listShopItems = _shopCart.getShopItems();
-            //if (_shopCart.listShopItems.Count == 0)
-            //{
-            //    ViewBag.Message = "Корзина пуста, Перейдите на стариницу покупок!";
-            //}
             CallGetCountItems();
             var obj = new ShopCartmodels
             {
