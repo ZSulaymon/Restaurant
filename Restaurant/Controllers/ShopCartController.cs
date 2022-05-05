@@ -62,7 +62,7 @@ namespace Restaurant.Controllers
             return View();
         }
         //public IActionResult AddToCart(Guid id)
-        public async Task<IActionResult> AddToCart(Guid id,Guid RestId)
+        public async Task<IActionResult> AddToCart(Guid id,Guid RestId)             //id - menu ID 
 
         {       
             var items =  _shopCart.getShopItems(id);

@@ -88,6 +88,8 @@ namespace Restaurant.Models.Restaurant
             return _context.ShopCartItems.Where(c => c.ShopCartId == ShopCartId && c.RestMenu.Id ==id).ToList();
         }
 
+
+
         //public List<RestMenu> getShopItemss()
         //{
         //    return    _context.ShopCartItems.Where(c => c.MenuId == id || c.ShopCartId == ShopCartId).ToList();
